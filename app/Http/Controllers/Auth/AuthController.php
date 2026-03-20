@@ -87,13 +87,14 @@ class AuthController extends Controller
         // Active profile starts as 'commissioner' for both, artist can switch to 'artist' mode
         $activeProfile = 'commissioner';
 
-        // Auto-generate email based on username and type
-        $emailDomain = $type === 'artist' ? 'artist.local' : 'client.local';
+        // Auto-generate email based on username
+        // Note: Email is internal-only, used for notifications. Not verified.
+        $email = sprintf('%s@atelier.net', Str::lower($payload['username']));
 
         $user = User::create([
             'name' => $payload['username'],
             'username' => $payload['username'],
-            'email' => sprintf('%s@%s', Str::lower($payload['username']), $emailDomain),
+            'email' => $email,
             'password' => $payload['password'],
             'role' => $role,
             'active_profile' => $activeProfile,
@@ -101,9 +102,6 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
-
-        // Send welcome email
-        $user->notify(new WelcomeEmail());
 
         // Redirect artists to their profile setup, clients to dashboard
         if ($type === 'artist') {
