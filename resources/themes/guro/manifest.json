@@ -1,0 +1,80 @@
+{
+    "name": "Guro Clinic",
+    "personality": "Clinical, precise, professional",
+    "description": "Surgical precision. No fluff. Efficient. The client knows they're in capable hands.",
+    "language": {
+        "buttons": {
+            "default": "EXECUTE",
+            "hover": "READY",
+            "loading": "IN PROGRESS",
+            "disabled": "OFFLINE",
+            "save": "COMMIT",
+            "cancel": "ABORT",
+            "delete": "REMOVE",
+            "edit": "MODIFY",
+            "close": "CLOSE",
+            "send": "DISPATCH",
+            "next": "CONTINUE",
+            "previous": "BACK"
+        },
+        "nav": {
+            "home": "INDEX",
+            "profile": "RECORD",
+            "settings": "PARAMETERS",
+            "dashboard": "OVERVIEW",
+            "logout": "DISCONNECT",
+            "login": "AUTHENTICATE",
+            "register": "REGISTER",
+            "browse": "CATALOG",
+            "messages": "COMMS",
+            "notifications": "TASKS"
+        },
+        "cards": {
+            "collapse": "MINIMIZE",
+            "expand": "EXPAND",
+            "close": "TERMINATE",
+            "view": "ACCESS",
+            "more": "ADDITIONAL"
+        },
+        "messages": {
+            "welcome": "SYSTEM READY",
+            "success": "COMPLETE",
+            "error": "FAILURE",
+            "warning": "ATTENTION",
+            "loading": "PROCESSING...",
+            "empty": "NO DATA",
+            "confirm": "PROCEED?"
+        },
+        "page": {
+            "title": "ATELIER",
+            "subtitle": "PROFESSIONAL SERVICES"
+        }
+    },
+    "layout": {
+        "navStyle": "grid",
+        "navPosition": "top",
+        "cardGap": "tight",
+        "contentDensity": "dense",
+        "maxWidth": "1200px",
+        "sidebarWidth": "260px"
+    },
+    "behaviors": {
+        "hover": "highlight",
+        "click": "select",
+        "transition": "instant",
+        "animationSpeed": 1.15
+    },
+    "components": {
+        "button": {
+            "style": "clinical",
+            "iconPosition": "left"
+        },
+        "card": {
+            "style": "clinical",
+            "shadow": "minimal"
+        },
+        "input": {
+            "style": "clinical"
+        }
+    }
+}

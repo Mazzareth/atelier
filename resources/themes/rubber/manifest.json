@@ -1,0 +1,80 @@
+{
+    "name": "Rubber/Latex",
+    "personality": "Enclosed, intimate, protective",
+    "description": "You want to be held. Everything is pressed close. Warm. Private. Protected.",
+    "language": {
+        "buttons": {
+            "default": "ENTER",
+            "hover": "PRESS",
+            "loading": "SEALING...",
+            "disabled": "SEALED",
+            "save": "LOCK IN",
+            "cancel": "RELEASE",
+            "delete": "PURGE",
+            "edit": "ADJUST",
+            "close": "SEAL",
+            "send": "TRANSMIT",
+            "next": "ADVANCE",
+            "previous": "RETREAT"
+        },
+        "nav": {
+            "home": "BASE",
+            "profile": "SELF",
+            "settings": "CONFIG",
+            "dashboard": "COMMAND",
+            "logout": "EXTRACT",
+            "login": "ACCESS",
+            "register": "ENROLL",
+            "browse": "SURVEY",
+            "messages": "LINK",
+            "notifications": "ALERTS"
+        },
+        "cards": {
+            "collapse": "CONTAIN",
+            "expand": "EXPOSE",
+            "close": "ENCLOSE",
+            "view": "REGISTER",
+            "more": "CONTINUE"
+        },
+        "messages": {
+            "welcome": "ACCESS GRANTED",
+            "success": "LOCKED IN",
+            "error": "BREACH DETECTED",
+            "warning": "CAUTION",
+            "loading": "PRESSURIZING...",
+            "empty": "VACUUM",
+            "confirm": "CONFIRM SEAL?"
+        },
+        "page": {
+            "title": "ATELIER",
+            "subtitle": "YOUR SPACE. SEALED."
+        }
+    },
+    "layout": {
+        "navStyle": "tight",
+        "navPosition": "top",
+        "cardGap": "none",
+        "contentDensity": "high",
+        "maxWidth": "1400px",
+        "sidebarWidth": "240px"
+    },
+    "behaviors": {
+        "hover": "compress",
+        "click": "press",
+        "transition": "smooth",
+        "animationSpeed": 0.72
+    },
+    "components": {
+        "button": {
+            "style": "tight",
+            "iconPosition": "right"
+        },
+        "card": {
+            "style": "tight",
+            "shadow": "hard"
+        },
+        "input": {
+            "style": "tight"
+        }
+    }
+}

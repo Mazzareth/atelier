@@ -17,9 +17,29 @@
             A commission platform built by artists, for artists — furry, NSFW, niche, weird, wonderful. All of it. No shadowbanning. Just a calm, artist-first space where you can actually connect.
         </p>
         <div class="btn-group">
-            <a href="{{ route('onboard') }}" class="btn btn-primary">Open your atelier <span class="arrow">→</span></a>
-            <a href="{{ route('browse') }}" class="btn btn-ghost">Find an artist</a>
+            <a href="{{ route('onboard') }}" class="btn btn-primary">
+                @theme('language.buttons.default') <span class="arrow">→</span>
+            </a>
+            <a href="{{ route('browse') }}" class="btn btn-ghost">@theme('language.nav.browse', 'Find an artist')</a>
         </div>
+        
+        <!-- Theme Debug: Remove this in production -->
+        <div class="theme-debug mono" style="margin-top: 1rem; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 0.7rem; color: var(--text-muted);">
+            Current theme: <strong style="color: var(--accent-color);">{{ $themeName }}</strong> | 
+            Button: "@theme('language.buttons.default')" | 
+            Nav Home: "@theme('language.nav.home')" |
+            Welcome: "@theme('language.messages.welcome')"
+            
+            <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <a href="/theme/switch/default" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Default</a>
+                <a href="/theme/switch/rubber" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Rubber</a>
+                <a href="/theme/switch/guro" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Guro</a>
+                <a href="/theme/switch/hexcorp" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Hexcorp</a>
+                <a href="/theme/switch/dominant" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Dominant</a>
+                <a href="/theme/reset" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">Reset</a>
+            </div>
+        </div>
+        
         <div class="hero-social-proof mono" style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">
             <span style="color: var(--highlight-color, #2bdc6c);">★</span> Join 2,400+ artists who stopped worrying about the algorithm.
         </div>

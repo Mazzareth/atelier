@@ -13,6 +13,7 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileConfigController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\Commission\ArtistRequestInboxController;
 use App\Http\Controllers\Commission\CommissionMessageController;
 use App\Http\Controllers\Commission\CommissionNotificationController;
@@ -158,3 +159,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // Public Artist Profile (Must be at the bottom to avoid catching other routes)
 Route::get('/{username}', [ArtistProfileController::class, 'show'])->name('artist.profile');
+
+// Theme Routes (for testing/development)
+Route::get('/theme/switch/{theme}', [ThemeController::class, 'switch'])->name('theme.switch');
+Route::get('/theme/preview/{theme}', [ThemeController::class, 'preview'])->name('theme.preview');
+Route::get('/theme/reset', [ThemeController::class, 'reset'])->name('theme.reset');
+Route::get('/theme/list', [ThemeController::class, 'list']);

@@ -1,0 +1,80 @@
+{
+    "name": "Default",
+    "personality": "Clean and professional",
+    "description": "The default Atelier experience. Professional, approachable, and functional.",
+    "language": {
+        "buttons": {
+            "default": "Submit",
+            "hover": "Click",
+            "loading": "Loading...",
+            "disabled": "Disabled",
+            "save": "Save",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "edit": "Edit",
+            "close": "Close",
+            "send": "Send",
+            "next": "Next",
+            "previous": "Previous"
+        },
+        "nav": {
+            "home": "Home",
+            "profile": "Profile",
+            "settings": "Settings",
+            "dashboard": "Dashboard",
+            "logout": "Logout",
+            "login": "Log In",
+            "register": "Register",
+            "browse": "Browse",
+            "messages": "Messages",
+            "notifications": "Notifications"
+        },
+        "cards": {
+            "collapse": "Show Less",
+            "expand": "Show More",
+            "close": "Close",
+            "view": "View",
+            "more": "More"
+        },
+        "messages": {
+            "welcome": "Welcome",
+            "success": "Success",
+            "error": "Error",
+            "warning": "Warning",
+            "loading": "Loading...",
+            "empty": "Nothing here yet",
+            "confirm": "Are you sure?"
+        },
+        "page": {
+            "title": "Atelier",
+            "subtitle": "Your art. Your rules."
+        }
+    },
+    "layout": {
+        "navStyle": "standard",
+        "navPosition": "top",
+        "cardGap": "normal",
+        "contentDensity": "normal",
+        "maxWidth": "1180px",
+        "sidebarWidth": "280px"
+    },
+    "behaviors": {
+        "hover": "lift",
+        "click": "press",
+        "transition": "smooth",
+        "animationSpeed": 1
+    },
+    "components": {
+        "button": {
+            "style": "standard",
+            "iconPosition": "left"
+        },
+        "card": {
+            "style": "standard",
+            "shadow": true
+        },
+        "input": {
+            "style": "standard"
+        }
+    }
+}
