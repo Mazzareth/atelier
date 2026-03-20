@@ -111,31 +111,58 @@
                     <div class="nav-profile-dropdown">
                         <a href="{{ $homeRoute }}" class="nav-profile-item mono">Home</a>
                         <a href="{{ route('plans') }}" class="nav-profile-item mono">Plans</a>
-                        <label class="nav-profile-label mono" for="theme-selector">Theme</label>
-                        <select id="theme-selector" class="theme-select mono nav-theme-select">
-                            <optgroup label="Core">
-                                <option value="default">Atelier Green (Default)</option>
-                            </optgroup>
-                            <optgroup label="Pride">
-                                <option value="gay">Gay Pride</option>
-                                <option value="trans">Trans Pride</option>
-                                <option value="lesbian">Lesbian Pride</option>
-                                <option value="bi">Bisexual Pride</option>
-                                <option value="nonbinary">Non-Binary Pride</option>
-                                <option value="pan">Pansexual Pride</option>
-                                <option value="asexual">Asexual Pride</option>
-                                <option value="genderqueer">Genderqueer Pride</option>
-                                <option value="intersex">Intersex Pride</option>
-                            </optgroup>
-                            <optgroup label="Vibes & Dynamics">
-                                <option value="dickgirl">Dickgirl Dommy Mommy</option>
-                                <option value="femboy">Soft Femboy</option>
-                                <option value="dominant">Strict Dominant</option>
-                                <option value="submissive">Submissive Pet</option>
-                                <option value="musk">Heavy Musk</option>
-                                <option value="pup">Pup Play</option>
-                            </optgroup>
-                        </select>
+                        <div class="theme-select-group">
+                            <label class="nav-profile-label mono" for="theme-selector">Theme</label>
+                            <div class="theme-select-row">
+                                <select id="theme-selector" class="theme-select mono nav-theme-select" data-theme-selector>
+                                    <optgroup label="Core">
+                                        <option value="default">Atelier Green (Default)</option>
+                                    </optgroup>
+                                    <optgroup label="Pride">
+                                        <option value="gay">Gay Pride</option>
+                                        <option value="trans">Trans Pride</option>
+                                        <option value="lesbian">Lesbian Pride</option>
+                                        <option value="bi">Bisexual Pride</option>
+                                        <option value="nonbinary">Non-Binary Pride</option>
+                                        <option value="pan">Pansexual Pride</option>
+                                        <option value="asexual">Asexual Pride</option>
+                                        <option value="genderqueer">Genderqueer Pride</option>
+                                        <option value="intersex">Intersex Pride</option>
+                                        <option value="genderfluid">Genderfluid Glow</option>
+                                    </optgroup>
+                                    <optgroup label="Vibes & Dynamics">
+                                        <option value="dickgirl">Dickgirl Dommy Mommy</option>
+                                        <option value="femboy">Soft Femboy</option>
+                                        <option value="dominant">Strict Dominant</option>
+                                        <option value="submissive">Submissive Pet</option>
+                                        <option value="musk">Heavy Musk</option>
+                                        <option value="pup">Pup Play</option>
+                                    </optgroup>
+                                    <optgroup label="Fetish Material">
+                                        <option value="rubber">Rubber Latex</option>
+                                        <option value="rope">Rope Bondage</option>
+                                        <option value="inflation">Inflation Bubble</option>
+                                        <option value="vore">Vore Jungle</option>
+                                        <option value="werewolf">Werewolf Moon</option>
+                                        <option value="hypno">Hypno Spiral</option>
+                                        <option value="daddy">Daddy Lounge</option>
+                                    </optgroup>
+                                </select>
+                                <label class="mature-toggle mono">
+                                    <input type="checkbox" data-theme-mature-toggle>
+                                    <span>Show mature themes</span>
+                                </label>
+                            </div>
+                            <div class="extreme-themes-optgroup" aria-hidden="true">
+                                <template>
+                                    <optgroup label="Extreme Kinks (opt-in required)">
+                                        <option value="guro">Guro Clinic</option>
+                                        <option value="living_toilet">Living Toilet</option>
+                                        <option value="parasites">Parasites Bloom</option>
+                                    </optgroup>
+                                </template>
+                            </div>
+                        </div>
                         <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                             @csrf
                             <button type="submit" class="nav-profile-item nav-profile-item-button mono">Log out</button>
@@ -146,30 +173,57 @@
         </div>
     @else
         <div class="nav-links mono" style="flex: 1; display: flex; justify-content: flex-end; margin-right: 2rem;">
-            <select id="theme-selector" class="theme-select mono" style="font-size: 0.7rem; padding: 0.3rem 1.5rem 0.3rem 0.6rem; margin-right: 1.5rem;">
-                <optgroup label="Core">
-                    <option value="default">Atelier Green (Default)</option>
-                </optgroup>
-                <optgroup label="Pride">
-                    <option value="gay">Gay Pride</option>
-                    <option value="trans">Trans Pride</option>
-                    <option value="lesbian">Lesbian Pride</option>
-                    <option value="bi">Bisexual Pride</option>
-                    <option value="nonbinary">Non-Binary Pride</option>
-                    <option value="pan">Pansexual Pride</option>
-                    <option value="asexual">Asexual Pride</option>
-                    <option value="genderqueer">Genderqueer Pride</option>
-                    <option value="intersex">Intersex Pride</option>
-                </optgroup>
-                <optgroup label="Vibes & Dynamics">
-                    <option value="dickgirl">Dickgirl Dommy Mommy</option>
-                    <option value="femboy">Soft Femboy</option>
-                    <option value="dominant">Strict Dominant</option>
-                    <option value="submissive">Submissive Pet</option>
-                    <option value="musk">Heavy Musk</option>
-                    <option value="pup">Pup Play</option>
-                </optgroup>
-            </select>
+            <div class="theme-select-group" style="margin-right: 1.5rem;">
+                <div class="theme-select-row">
+                    <select id="theme-selector" class="theme-select mono" style="font-size: 0.7rem; padding: 0.3rem 1.5rem 0.3rem 0.6rem;" data-theme-selector>
+                        <optgroup label="Core">
+                            <option value="default">Atelier Green (Default)</option>
+                        </optgroup>
+                        <optgroup label="Pride">
+                            <option value="gay">Gay Pride</option>
+                            <option value="trans">Trans Pride</option>
+                            <option value="lesbian">Lesbian Pride</option>
+                            <option value="bi">Bisexual Pride</option>
+                            <option value="nonbinary">Non-Binary Pride</option>
+                            <option value="pan">Pansexual Pride</option>
+                            <option value="asexual">Asexual Pride</option>
+                            <option value="genderqueer">Genderqueer Pride</option>
+                            <option value="intersex">Intersex Pride</option>
+                            <option value="genderfluid">Genderfluid Glow</option>
+                        </optgroup>
+                        <optgroup label="Vibes & Dynamics">
+                            <option value="dickgirl">Dickgirl Dommy Mommy</option>
+                            <option value="femboy">Soft Femboy</option>
+                            <option value="dominant">Strict Dominant</option>
+                            <option value="submissive">Submissive Pet</option>
+                            <option value="musk">Heavy Musk</option>
+                            <option value="pup">Pup Play</option>
+                        </optgroup>
+                        <optgroup label="Fetish Material">
+                            <option value="rubber">Rubber Latex</option>
+                            <option value="rope">Rope Bondage</option>
+                            <option value="inflation">Inflation Bubble</option>
+                            <option value="vore">Vore Jungle</option>
+                            <option value="werewolf">Werewolf Moon</option>
+                            <option value="hypno">Hypno Spiral</option>
+                            <option value="daddy">Daddy Lounge</option>
+                        </optgroup>
+                    </select>
+                    <label class="mature-toggle mono">
+                        <input type="checkbox" data-theme-mature-toggle>
+                        <span>Show mature themes</span>
+                    </label>
+                </div>
+                <div class="extreme-themes-optgroup" aria-hidden="true">
+                    <template>
+                        <optgroup label="Extreme Kinks (opt-in required)">
+                            <option value="guro">Guro Clinic</option>
+                            <option value="living_toilet">Living Toilet</option>
+                            <option value="parasites">Parasites Bloom</option>
+                        </optgroup>
+                    </template>
+                </div>
+            </div>
             <a href="{{ route('pricing') }}">Pricing <span class="free-badge mono">free!</span></a>
         </div>
         <a href="{{ route('login') }}"><button class="sign-in">Sign in</button></a>
