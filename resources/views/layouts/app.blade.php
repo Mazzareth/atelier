@@ -897,5 +897,6 @@
             }
         });
     </script>
+    <script src="{{ asset('js/particles.js') }}"></script>
 </body>
 </html>
