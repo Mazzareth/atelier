@@ -554,6 +554,91 @@
 
         @keyframes parasites-enter { 0% { filter: brightness(0.7) saturate(2.2) hue-rotate(30deg); } 100% { filter: brightness(1) saturate(1) hue-rotate(0deg); } }
         body.theme-entering-parasites { animation: parasites-enter calc(0.5s * var(--anim-speed)) ease-out forwards; }
+/* Micro-UX Layer */
+        [data-theme="pup"] .btn:hover { animation: pup-wag calc(0.4s * var(--anim-speed)) ease-in-out infinite; }
+        @keyframes pup-wag { 0%,100% { transform: rotate(-3deg) scale(1.02); } 50% { transform: rotate(3deg) scale(1.04); } }
+
+        [data-theme="dominant"] .btn:hover { transform: scale(0.97); transition: transform 0.08s linear; }
+        [data-theme="dominant"] .btn:active { transform: scale(0.95); }
+        [data-theme="dominant"] .btn { transition: transform 0.08s linear, background 0.1s, border-color 0.1s; }
+
+        [data-theme="femboy"] .btn:hover { transform: translateY(-3px) scale(1.03); }
+        [data-theme="femboy"] .btn:active { transform: translateY(1px) scale(0.98); }
+        [data-theme="femboy"] .btn { transition: transform calc(0.3s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, border-color 0.3s; }
+
+        [data-theme="hypno"] .btn:hover { box-shadow: var(--shadow-glow), 0 0 0 3px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 0 24px rgba(var(--accent-color-rgb), 0.4); animation: hypno-btn-pulse calc(2s * var(--anim-speed)) ease-in-out infinite; }
+        @keyframes hypno-btn-pulse { 0%,100% { box-shadow: var(--shadow-glow), 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent); } 50% { box-shadow: var(--shadow-glow), 0 0 0 6px color-mix(in srgb, var(--accent-color) 40%, transparent), 0 0 32px rgba(var(--accent-color-rgb), 0.5); } }
+
+        [data-theme="inflation"] .btn:hover { transform: scale(1.06); transition: transform calc(0.5s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: var(--shadow-glow), 0 8px 24px rgba(var(--accent-color-rgb), 0.28); }
+        [data-theme="inflation"] .btn:active { transform: scale(0.97); transition: transform 0.12s ease; }
+
+        [data-theme="rubber"] .btn:hover { animation: rubber-squeeze calc(0.3s * var(--anim-speed)) ease-out forwards; }
+        @keyframes rubber-squeeze { 0% { transform: scaleX(1) scaleY(1); } 30% { transform: scaleX(0.92) scaleY(1.08); } 100% { transform: scaleX(1) scaleY(1); } }
+
+        [data-theme="vore"] .btn:active { animation: vore-absorb calc(0.35s * var(--anim-speed)) ease-in; }
+        @keyframes vore-absorb { 0% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(0.93); filter: brightness(0.7) saturate(2); } 100% { transform: scale(1); filter: brightness(1); } }
+
+        [data-theme="submissive"] .btn:hover { transform: translateY(2px) scale(0.98); opacity: 0.88; }
+
+        [data-theme="werewolf"] .btn:hover { transform: scale(1.04); filter: brightness(1.12); transition: transform calc(0.15s * var(--anim-speed)) ease-out; }
+
+        /* note: custom cursor images would need SVG data URIs - use the best available CSS cursors */
+        [data-theme="dominant"] { cursor: crosshair; }
+        [data-theme="dominant"] .btn, [data-theme="dominant"] a { cursor: crosshair; }
+        [data-theme="pup"] { cursor: default; }
+        [data-theme="hypno"] * { cursor: cell; }
+        [data-theme="vore"] * { cursor: zoom-in; }
+        [data-theme="femboy"] .btn { cursor: pointer; }
+        [data-theme="guro"] { cursor: crosshair; }
+        [data-theme="rope"] { cursor: grab; }
+        [data-theme="rope"] *:active { cursor: grabbing; }
+
+        :root ::selection { background: rgba(var(--accent-color-rgb), 0.3); color: var(--text-main); }
+        [data-theme="gay"] ::selection { background: rgba(125, 65, 217, 0.5); color: #fff; }
+        [data-theme="trans"] ::selection { background: rgba(85, 205, 252, 0.4); color: #fff; }
+        [data-theme="lesbian"] ::selection { background: rgba(214, 41, 0, 0.45); color: #fff; }
+        [data-theme="dominant"] ::selection { background: rgba(204, 0, 0, 0.65); color: #fff; }
+        [data-theme="femboy"] ::selection { background: rgba(245, 169, 184, 0.5); color: #111; }
+        [data-theme="hypno"] ::selection { background: rgba(138, 125, 255, 0.6); color: #fff; }
+        [data-theme="rubber"] ::selection { background: rgba(255, 255, 255, 0.85); color: #000; }
+        [data-theme="inflation"] ::selection { background: rgba(255, 183, 223, 0.5); color: #111; }
+        [data-theme="vore"] ::selection { background: rgba(107, 184, 111, 0.55); color: #0d170f; }
+        [data-theme="musk"] ::selection { background: rgba(181, 141, 61, 0.45); color: #fff; }
+        [data-theme="pup"] ::selection { background: rgba(43, 92, 255, 0.5); color: #fff; }
+        [data-theme="guro"] ::selection { background: rgba(141, 15, 34, 0.55); color: #fff; }
+        [data-theme="parasites"] ::selection { background: rgba(134, 196, 83, 0.5); color: #0d170f; }
+
+        html { scrollbar-width: thin; scrollbar-color: var(--border-color) transparent; }
+        html::-webkit-scrollbar { width: 7px; }
+        html::-webkit-scrollbar-track { background: transparent; }
+        html::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 999px; }
+        html::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--accent-color) 50%, var(--border-color)); }
+
+        [data-theme="dominant"] { scrollbar-color: #cc0000 #0b0a0a; }
+        [data-theme="dominant"]::-webkit-scrollbar-thumb { background: #cc0000; border-radius: 0; }
+
+        [data-theme="rubber"] { scrollbar-color: #f1f1f1 #111; }
+        [data-theme="rubber"]::-webkit-scrollbar { width: 4px; }
+        [data-theme="rubber"]::-webkit-scrollbar-thumb { background: #f1f1f1; border-radius: 0; }
+
+        [data-theme="femboy"] { scrollbar-color: #f5a9b8 #1b1e22; }
+        [data-theme="femboy"]::-webkit-scrollbar-thumb { border-radius: 999px; }
+
+        [data-theme="hypno"] { scrollbar-color: #8a7dff #0d1024; }
+        [data-theme="hypno"]::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8a7dff, #3d2fa4); }
+
+        [data-theme="vore"]::-webkit-scrollbar-thumb { background: #375a2e; }
+
+        [data-theme="musk"]::-webkit-scrollbar-thumb { background: #b58d3d; }
+
+        [data-theme="inflation"]::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ffb7df, #bde7ff); border-radius: 999px; }
+
+        [data-theme="parasites"]::-webkit-scrollbar-thumb { background: #86c453; border-radius: 4px; }
+
+        :focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; border-radius: calc(var(--radius-base) + 2px); }
+        [data-theme="dominant"] :focus-visible { outline-color: #cc0000; border-radius: 0; outline-width: 3px; }
+        [data-theme="rubber"] :focus-visible { outline-color: #f1f1f1; border-radius: 0; outline-style: dashed; }
+        [data-theme="hypno"] :focus-visible { outline-color: #8a7dff; box-shadow: 0 0 0 4px rgba(138,125,255,0.25); }
     </style>
 </head>
 <body class="{{ request()->routeIs('conversations.*') ? 'chat-route' : '' }}">
