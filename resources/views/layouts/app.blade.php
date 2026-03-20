@@ -28,6 +28,17 @@
             --noise-opacity: 0; --texture-url: none;
             --anim-speed: 1; --anim-float-style: float;
             --panel-bg: var(--bg-panel); --glass-opacity: 0;
+            
+            /* EXPERIENTIAL VARIABLES - Champion Fantasy */
+            --hover-compression: 1.02;
+            --hover-press: 0.98;
+            --hover-scale: 1;
+            --motion-easing: ease;
+            --click-weight: 1;
+            --surface-shine: 0;
+            --shadow-blur: 4px;
+            --glow-intensity: 1;
+            
             transition: all calc(0.5s * var(--anim-speed)) ease;
         }
         [data-theme="gay"] { --bg-color: #130f18; --bg-panel: #1c1523; --accent-color: #7d41d9; --accent-color-rgb: 125, 65, 217; --accent-dim: rgba(125, 65, 217, 0.18); --text-main: #f7f3ff; --text-muted: #bfb0d8; --border-color: #34264a; --stripe-bg: linear-gradient(90deg, #ff0018 0 16.6%, #ffa52c 16.6% 33.3%, #ffff41 33.3% 50%, #008018 50% 66.6%, #0000f9 66.6% 83.3%, #86007d 83.3%); --stripe-height: 14px; --stripe-anim: shift; --particle-color: 125, 65, 217; --radius-base: 10px; --radius-card: 18px; --radius-btn: 999px; --font-display: "Trebuchet MS", "Avenir Next", sans-serif; --font-weight-heading: 700; --letter-spacing: 0.08em; --shadow-card: 0 18px 42px rgba(20, 6, 40, 0.4); --shadow-glow: 0 0 28px rgba(125, 65, 217, 0.35); --noise-opacity: 0.08; --texture-url: linear-gradient(135deg, rgba(255,255,255,0.06) 0 10%, transparent 10% 50%, rgba(255,255,255,0.04) 50% 60%, transparent 60% 100%); --anim-speed: 0.95; --anim-float-style: bounce; --panel-bg: linear-gradient(180deg, rgba(36,22,50,0.96), rgba(23,17,34,0.96)); --glass-opacity: 0.06; }
@@ -54,7 +65,15 @@
         [data-theme="submissive"] { --bg-color: #121216; --bg-panel: #1a1a20; --accent-color: #9d8ec7; --accent-color-rgb: 157, 142, 199; --accent-dim: rgba(157, 142, 199, 0.16); --text-main: #f4f1fb; --text-muted: #b4aec8; --border-color: #363247; --stripe-bg: linear-gradient(90deg, #6a5acd, #9d8ec7, #e6e6fa); --stripe-height: 10px; --stripe-anim: wave; --particle-color: 157, 142, 199; --radius-base: 18px; --radius-card: 22px; --radius-btn: 999px; --font-display: "Palatino", serif; --font-weight-heading: 600; --letter-spacing: 0.04em; --shadow-card: 0 18px 42px rgba(11, 10, 19, 0.42); --shadow-glow: 0 0 22px rgba(157, 142, 199, 0.28); --noise-opacity: 0.04; --texture-url: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%), radial-gradient(circle at 75% 15%, rgba(255,255,255,0.05), transparent 15%); --anim-speed: 1.1; --anim-float-style: float; --panel-bg: linear-gradient(180deg, rgba(26,26,32,0.93), rgba(20,20,24,0.93)); --glass-opacity: 0.08; }
         [data-theme="musk"] { --bg-color: #12130b; --bg-panel: #1b1d12; --accent-color: #b58d3d; --accent-color-rgb: 181, 141, 61; --accent-dim: rgba(181, 141, 61, 0.18); --text-main: #f5f1df; --text-muted: #b7a983; --border-color: #473b23; --stripe-bg: linear-gradient(90deg, #2c3618, #b58d3d, #4b3621); --stripe-height: 9px; --stripe-anim: shift; --particle-color: 181, 141, 61; --radius-base: 10px; --radius-card: 16px; --radius-btn: 999px; --font-display: "Trebuchet MS", sans-serif; --font-weight-heading: 700; --letter-spacing: 0.08em; --shadow-card: 0 18px 40px rgba(17, 15, 8, 0.48); --shadow-glow: 0 0 22px rgba(181, 141, 61, 0.26); --noise-opacity: 0.1; --texture-url: radial-gradient(circle at 25% 30%, rgba(255,255,255,0.03), transparent 18%), linear-gradient(135deg, rgba(0,0,0,0.08), transparent 40%); --anim-speed: 0.95; --anim-float-style: spiral; --panel-bg: linear-gradient(180deg, rgba(27,29,18,0.96), rgba(22,23,14,0.94)); --glass-opacity: 0.03; }
         [data-theme="pup"] { --bg-color: #0a0c12; --bg-panel: #12151c; --accent-color: #2b5cff; --accent-color-rgb: 43, 92, 255; --accent-dim: rgba(43, 92, 255, 0.18); --text-main: #eef2ff; --text-muted: #9ba8c8; --border-color: #263352; --stripe-bg: linear-gradient(90deg, #000, #2b5cff, #fff, #2b5cff, #000); --stripe-height: 10px; --stripe-anim: pulse; --particle-color: 43, 92, 255; --radius-base: 14px; --radius-card: 20px; --radius-btn: 999px; --font-display: "Verdana", sans-serif; --font-weight-heading: 700; --letter-spacing: 0.1em; --shadow-card: 0 18px 44px rgba(3, 7, 18, 0.48); --shadow-glow: 0 0 24px rgba(43, 92, 255, 0.32); --noise-opacity: 0.05; --texture-url: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.06), transparent 12%), radial-gradient(circle at 65% 72%, rgba(255,255,255,0.05), transparent 11%); --anim-speed: 0.9; --anim-float-style: bounce; --panel-bg: linear-gradient(180deg, rgba(18,21,28,0.94), rgba(12,15,21,0.94)); --glass-opacity: 0.06; }
-        [data-theme="rubber"] { --bg-color: #060606; --bg-panel: #111111; --accent-color: #f1f1f1; --accent-color-rgb: 241, 241, 241; --accent-dim: rgba(241, 241, 241, 0.14); --text-main: #f5f5f5; --text-muted: #9f9f9f; --border-color: #2e2e2e; --stripe-bg: linear-gradient(90deg, #111 0, #f8f8f8 25%, #1a1a1a 50%, #ffffff 75%, #111 100%); --stripe-height: 6px; --stripe-anim: shift; --particle-color: 241, 241, 241; --radius-base: 0; --radius-card: 0; --radius-btn: 0; --font-display: "Arial Black", "Impact", sans-serif; --font-weight-heading: 800; --letter-spacing: 0.18em; --shadow-card: 0 20px 0 rgba(0,0,0,0.55), 0 30px 60px rgba(0,0,0,0.65); --shadow-glow: 0 0 18px rgba(255,255,255,0.18); --border-width: 1px; --border-style: solid; --noise-opacity: 0.12; --texture-url: linear-gradient(160deg, rgba(255,255,255,0.22) 0 8%, rgba(255,255,255,0.02) 8% 32%, rgba(255,255,255,0.16) 32% 36%, transparent 36% 100%); --anim-speed: 0.72; --anim-float-style: bounce; --panel-bg: linear-gradient(180deg, rgba(18,18,18,0.98), rgba(8,8,8,0.98)); --glass-opacity: 0.02; }
+        [data-theme="rubber"] { --bg-color: #060606; --bg-panel: #111111; --accent-color: #f1f1f1; --accent-color-rgb: 241, 241, 241; --accent-dim: rgba(241, 241, 241, 0.14); --text-main: #f5f5f5; --text-muted: #9f9f9f; --border-color: #2e2e2e; --stripe-bg: linear-gradient(90deg, #111 0, #f8f8f8 25%, #1a1a1a 50%, #ffffff 75%, #111 100%); --stripe-height: 6px; --stripe-anim: shift; --particle-color: 241, 241, 241; --radius-base: 0; --radius-card: 0; --radius-btn: 0; --font-display: "Arial Black", "Impact", sans-serif; --font-weight-heading: 800; --letter-spacing: 0.18em; --shadow-card: 0 20px 0 rgba(0,0,0,0.55), 0 30px 60px rgba(0,0,0,0.65); --shadow-glow: 0 0 18px rgba(255,255,255,0.18); --border-width: 1px; --border-style: solid; --noise-opacity: 0.12; --texture-url: linear-gradient(160deg, rgba(255,255,255,0.22) 0 8%, rgba(255,255,255,0.02) 8% 32%, rgba(255,255,255,0.16) 32% 36%, transparent 36% 100%); --anim-speed: 0.72; --anim-float-style: sink; --panel-bg: linear-gradient(180deg, rgba(18,18,18,0.98), rgba(8,8,8,0.98)); --glass-opacity: 0.02; 
+            /* RUBBER CHAMPION FANTASY - Experiential Variables */
+            --hover-compression: 0.98;
+            --hover-press: 0.95;
+            --motion-easing: ease-in-out;
+            --surface-shine: 0.18;
+            --shadow-blur: 0px;
+            --glow-intensity: 1.5;
+        }
         [data-theme="rope"] { --bg-color: #1a1510; --bg-panel: #241d15; --accent-color: #c8a56e; --accent-color-rgb: 200, 165, 110; --accent-dim: rgba(200, 165, 110, 0.16); --text-main: #f4ecde; --text-muted: #bda887; --border-color: #4c3b26; --stripe-bg: repeating-linear-gradient(90deg, #8b6b3f 0 10px, #b08a54 10px 20px, #d8ba83 20px 30px); --stripe-height: 8px; --stripe-anim: none; --particle-color: 200, 165, 110; --radius-base: 8px; --radius-card: 16px; --radius-btn: 999px; --font-display: "Georgia", serif; --font-weight-heading: 700; --letter-spacing: 0.06em; --shadow-card: 0 16px 34px rgba(14, 9, 4, 0.4); --shadow-glow: 0 0 20px rgba(200, 165, 110, 0.18); --noise-opacity: 0.1; --texture-url: linear-gradient(90deg, rgba(255,255,255,0.03) 0 8%, transparent 8% 14%, rgba(0,0,0,0.08) 14% 17%, transparent 17% 100%); --anim-speed: 1; --anim-float-style: float; --panel-bg: linear-gradient(180deg, rgba(36,29,21,0.96), rgba(27,22,16,0.95)); --glass-opacity: 0.01; }
         [data-theme="inflation"] { --bg-color: #201a2a; --bg-panel: #2b2238; --accent-color: #ffb7df; --accent-color-rgb: 255, 183, 223; --accent-dim: rgba(255, 183, 223, 0.18); --text-main: #fff7fd; --text-muted: #d4bfd7; --border-color: #5d4b73; --stripe-bg: linear-gradient(90deg, #ffb7df, #bde7ff, #fff5aa, #ffb7df); --stripe-height: 18px; --stripe-anim: pulse; --particle-color: 255, 183, 223; --radius-base: 20px; --radius-card: 32px; --radius-btn: 999px; --font-display: "Arial Rounded MT Bold", "Trebuchet MS", sans-serif; --font-weight-heading: 700; --letter-spacing: 0.05em; --shadow-card: 0 20px 36px rgba(26, 14, 38, 0.36); --shadow-glow: 0 0 32px rgba(255, 183, 223, 0.34); --noise-opacity: 0.04; --texture-url: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1), transparent 18%), radial-gradient(circle at 75% 60%, rgba(255,255,255,0.06), transparent 20%); --anim-speed: 0.82; --anim-float-style: bounce; --panel-bg: linear-gradient(180deg, rgba(43,34,56,0.92), rgba(35,28,46,0.9)); --glass-opacity: 0.12; }
         [data-theme="vore"] { --bg-color: #0d170f; --bg-panel: #152218; --accent-color: #6bb86f; --accent-color-rgb: 107, 184, 111; --accent-dim: rgba(107, 184, 111, 0.16); --text-main: #edf7ea; --text-muted: #9db099; --border-color: #29422d; --stripe-bg: linear-gradient(90deg, #0d170f, #375a2e, #6bb86f, #254127); --stripe-height: 7px; --stripe-anim: wave; --particle-color: 107, 184, 111; --radius-base: 12px; --radius-card: 18px; --radius-btn: 999px; --font-display: "Palatino Linotype", serif; --font-weight-heading: 700; --letter-spacing: 0.04em; --shadow-card: 0 22px 52px rgba(3, 10, 4, 0.54); --shadow-glow: 0 0 16px rgba(107, 184, 111, 0.22); --noise-opacity: 0.12; --texture-url: radial-gradient(circle at 30% 20%, rgba(0,0,0,0.16), transparent 22%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.03), transparent 14%); --anim-speed: 1.4; --anim-float-style: sink; --panel-bg: linear-gradient(180deg, rgba(21,34,24,0.96), rgba(13,23,15,0.96)); --glass-opacity: 0.02; }
@@ -616,6 +635,31 @@
 
         [data-theme="rubber"] .btn:hover { animation: rubber-squeeze calc(0.3s * var(--anim-speed)) ease-out forwards; }
         @keyframes rubber-squeeze { 0% { transform: scaleX(1) scaleY(1); } 30% { transform: scaleX(0.92) scaleY(1.08); } 100% { transform: scaleX(1) scaleY(1); } }
+        
+        /* RUBBER CHAMPION FANTASY - Card & Element Compression */
+        [data-theme="rubber"] .card:hover { transform: scale(var(--hover-compression, 0.98)); transition: transform calc(200ms * var(--anim-speed)) var(--motion-easing, ease-in-out); }
+        [data-theme="rubber"] a:hover { transform: scale(var(--hover-compression, 0.98)); transition: transform calc(150ms * var(--anim-speed)) var(--motion-easing, ease-in-out); }
+        [data-theme="rubber"] .btn:active { transform: scale(var(--hover-press, 0.95)); transition: transform 0.1s ease; }
+        
+        /* RUBBER CHAMPION FANTASY - Surface Shine Overlay */
+        [data-theme="rubber"] body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255, var(--surface-shine, 0.18)) 0%,
+                transparent 40%,
+                transparent 60%,
+                rgba(255,255,255, calc(var(--surface-shine, 0.18) * 0.4)) 100%
+            );
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.6;
+        }
+        
+        /* RUBBER CHAMPION FANTASY - Glow Enhancement on Hover */
+        [data-theme="rubber"] .btn:hover { box-shadow: 0 0 calc(24px * var(--glow-intensity, 1.5)) rgba(255,255,255, calc(0.25 * var(--glow-intensity, 1.5))); }
 
         [data-theme="vore"] .btn:active { animation: vore-absorb calc(0.35s * var(--anim-speed)) ease-in; }
         @keyframes vore-absorb { 0% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(0.93); filter: brightness(0.7) saturate(2); } 100% { transform: scale(1); filter: brightness(1); } }
