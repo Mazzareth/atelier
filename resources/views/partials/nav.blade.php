@@ -157,7 +157,8 @@
                                         <option value="werewolf">Werewolf Moon</option>
                                         <option value="hypno">Hypno Spiral</option>
                                         <option value="daddy">Daddy Lounge</option>
-                                        <option value="hexcorp">Hexcorp Clinic</option>
+                                        <option value="hexcorp">A-Corp</option>
+                                        <option value="dronification">Dronification Unit</option>
                                     </optgroup>
                                 </select>
                                 <label class="mature-toggle mono">
@@ -230,7 +231,8 @@
                             <option value="werewolf">Werewolf Moon</option>
                             <option value="hypno">Hypno Spiral</option>
                             <option value="daddy">Daddy Lounge</option>
-                            <option value="hexcorp">Hexcorp Clinic</option>
+                            <option value="hexcorp">A-Corp</option>
+                            <option value="dronification">Dronification Unit</option>
                         </optgroup>
                     </select>
                     <label class="mature-toggle mono">

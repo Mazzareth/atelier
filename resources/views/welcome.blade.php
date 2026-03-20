@@ -17,7 +17,7 @@
             A commission platform built by artists, for artists — furry, NSFW, niche, weird, wonderful. All of it. No shadowbanning. Just a calm, artist-first space where you can actually connect.
         </p>
         <div class="btn-group">
-            <a href="#" class="btn btn-primary">Open your atelier <span class="arrow">→</span></a>
+            <a href="{{ route('onboard') }}" class="btn btn-primary">Open your atelier <span class="arrow">→</span></a>
             <a href="{{ route('browse') }}" class="btn btn-ghost">Find an artist</a>
         </div>
         <div class="hero-social-proof mono" style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">

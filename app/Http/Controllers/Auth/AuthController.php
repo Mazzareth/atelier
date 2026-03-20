@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Enums\UserRole;
+use App\Notifications\WelcomeEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -100,6 +101,9 @@ class AuthController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        // Send welcome email
+        $user->notify(new WelcomeEmail());
 
         // Redirect artists to their profile setup, clients to dashboard
         if ($type === 'artist') {

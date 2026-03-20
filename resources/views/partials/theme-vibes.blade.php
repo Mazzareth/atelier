@@ -195,6 +195,22 @@
             <path d="M50 54h20M60 44v20" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
         </svg>
     </div>
+    <div class="theme-extra vibe-1 drone-helix">
+        <svg viewBox="0 0 120 140" fill="none" aria-hidden="true">
+            <path d="M60 8c18 16 22 36 22 62s-4 46-22 62C42 116 38 96 38 70S42 24 60 8Z" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M36 34c16 4 28 18 28 36S52 100 36 106M84 34c-16 4-28 18-28 36s12 30 28 36" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity="0.72"/>
+            <circle cx="60" cy="70" r="8" fill="currentColor"/>
+            <circle cx="60" cy="70" r="3" fill="var(--bg-color)"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-3 drone-sigil">
+        <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+            <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" stroke="currentColor" stroke-width="7" fill="none"/>
+            <polygon points="60,28 92,44 92,76 60,92 28,76 28,44" stroke="currentColor" stroke-width="5" fill="none" opacity="0.6"/>
+            <circle cx="60" cy="60" r="10" fill="currentColor" opacity="0.85"/>
+            <path d="M60 38v44M38 60h44" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+    </div>
     <div class="theme-extra vibe-1 hexcorp-grid">
         <svg viewBox="0 0 140 120" fill="none" aria-hidden="true">
             <path d="M28 24h28l14 24-14 24H28L14 48l14-24ZM84 48h28l14 24-14 24H84L70 72l14-24Z" stroke="currentColor" stroke-width="8"/>

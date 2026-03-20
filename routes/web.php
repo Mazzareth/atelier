@@ -20,6 +20,7 @@ use App\Http\Controllers\Commission\CommissionRequestController;
 use App\Http\Controllers\Commission\WorkspaceController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', [WelcomeController::class, 'index']);
 
@@ -34,6 +35,31 @@ Route::get('/plans', function() {
 
 // Onboarding
 Route::get('/onboard', [OnboardingController::class, 'index'])->name('onboard');
+
+// Email Verification Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    Route::post('/email/verification-notification', [App\Http\Controllers\VerificationController::class, 'send'])
+        ->name('verification.send');
+});
+
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+    $user = \App\Models\User::findOrFail($id);
+
+    if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
+        return redirect('/')->with('error', 'Invalid verification link.');
+    }
+
+    if ($user->hasVerifiedEmail()) {
+        return redirect('/')->with('status', 'Email already verified.');
+    }
+
+    $user->markEmailAsVerified();
+    return redirect('/')->with('status', 'Email verified successfully!');
+})->middleware(['signed'])->name('verification.verify');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
