@@ -1,5 +1,5 @@
 <nav>
-    <a href="{{ auth()->check() ? (auth()->user()->active_profile == 'artist' ? route('artist.dashboard') : (auth()->user()->active_profile == 'admin' ? route('admin.dashboard') : route('dashboard'))) : url('/') }}" class="logo serif" style="text-decoration: none; color: inherit;">
+    <a href="{{ auth()->check() ? (auth()->user()->active_profile == 'artist' ? route('artist.dashboard') : (auth()->user()->active_profile == 'admin' ? route('admin.dashboard') : route('dashboard'))) : url('/') }}" class="logo logo-link serif">
         <div class="logo-circle">a</div>
         atelier
     </a>
@@ -97,9 +97,9 @@
 
             <div class="app-nav-right">
                 @if($modesCount > 1)
-                    <a href="{{ route('conversations.index') }}" id="requests-drawer-toggle" class="sign-in nav-chat-link" style="position: relative; padding-right: 2.4rem; text-decoration:none; display:inline-flex; align-items:center;">
+                    <a href="{{ route('conversations.index') }}" id="requests-drawer-toggle" class="sign-in nav-chat-link nav-chat-link--with-badge">
                         Chats
-                        <span id="requests-unread-badge" style="display:none; position:absolute; top:50%; right:0.7rem; transform:translateY(-50%); min-width:1.15rem; height:1.15rem; padding:0 0.28rem; border-radius:999px; background:var(--accent-color); color:#000; font-size:0.65rem; font-weight:bold; line-height:1.15rem; text-align:center;"></span>
+                        <span id="requests-unread-badge" class="nav-unread-badge"></span>
                     </a>
                 @endif
 
@@ -130,6 +130,17 @@
                                         <option value="intersex">Intersex Pride</option>
                                         <option value="genderfluid">Genderfluid Glow</option>
                                     </optgroup>
+                                    <optgroup label="Soft & Storybook">
+                                        <option value="yami_kawaii">Yami Kawaii</option>
+                                        <option value="pastel_goth">Pastel Goth</option>
+                                        <option value="deep_sea">Deep Sea</option>
+                                    </optgroup>
+                                    <optgroup label="Species">
+                                        <option value="goat">Goat Hearth</option>
+                                        <option value="moth">Moth Moon</option>
+                                        <option value="bunny">Bunny Plush</option>
+                                        <option value="sea_bunny">Sea Bunny Drift</option>
+                                    </optgroup>
                                     <optgroup label="Vibes & Dynamics">
                                         <option value="dickgirl">Dickgirl Dommy Mommy</option>
                                         <option value="femboy">Soft Femboy</option>
@@ -146,6 +157,7 @@
                                         <option value="werewolf">Werewolf Moon</option>
                                         <option value="hypno">Hypno Spiral</option>
                                         <option value="daddy">Daddy Lounge</option>
+                                        <option value="hexcorp">Hexcorp Clinic</option>
                                     </optgroup>
                                 </select>
                                 <label class="mature-toggle mono">
@@ -163,7 +175,7 @@
                                 </template>
                             </div>
                         </div>
-                        <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                        <form method="POST" action="{{ route('logout') }}" class="logout-form">
                             @csrf
                             <button type="submit" class="nav-profile-item nav-profile-item-button mono">Log out</button>
                         </form>
@@ -172,10 +184,10 @@
             </div>
         </div>
     @else
-        <div class="nav-links mono" style="flex: 1; display: flex; justify-content: flex-end; margin-right: 2rem;">
-            <div class="theme-select-group" style="margin-right: 1.5rem;">
+        <div class="nav-links mono nav-links--guest">
+            <div class="theme-select-group nav-theme-group--guest">
                 <div class="theme-select-row">
-                    <select id="theme-selector" class="theme-select mono" style="font-size: 0.7rem; padding: 0.3rem 1.5rem 0.3rem 0.6rem;" data-theme-selector>
+                    <select id="theme-selector" class="theme-select theme-select--compact mono" data-theme-selector>
                         <optgroup label="Core">
                             <option value="default">Atelier Green (Default)</option>
                         </optgroup>
@@ -190,6 +202,17 @@
                             <option value="genderqueer">Genderqueer Pride</option>
                             <option value="intersex">Intersex Pride</option>
                             <option value="genderfluid">Genderfluid Glow</option>
+                        </optgroup>
+                        <optgroup label="Soft & Storybook">
+                            <option value="yami_kawaii">Yami Kawaii</option>
+                            <option value="pastel_goth">Pastel Goth</option>
+                            <option value="deep_sea">Deep Sea</option>
+                        </optgroup>
+                        <optgroup label="Species">
+                            <option value="goat">Goat Hearth</option>
+                            <option value="moth">Moth Moon</option>
+                            <option value="bunny">Bunny Plush</option>
+                            <option value="sea_bunny">Sea Bunny Drift</option>
                         </optgroup>
                         <optgroup label="Vibes & Dynamics">
                             <option value="dickgirl">Dickgirl Dommy Mommy</option>
@@ -207,6 +230,7 @@
                             <option value="werewolf">Werewolf Moon</option>
                             <option value="hypno">Hypno Spiral</option>
                             <option value="daddy">Daddy Lounge</option>
+                            <option value="hexcorp">Hexcorp Clinic</option>
                         </optgroup>
                     </select>
                     <label class="mature-toggle mono">

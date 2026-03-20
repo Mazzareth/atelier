@@ -26,6 +26,51 @@
     
     <div class="theme-extra vibe-3 intersex-flower">🌻💛</div>
     <div class="theme-extra vibe-4 intersex-flower">🟣</div>
+    <div class="theme-extra vibe-1 intersex-orchid">
+        <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
+            <path d="M60 22c8 10 10 17 10 25 0 7-5 14-10 14s-10-7-10-14c0-8 2-15 10-25Z" fill="#b65bd7"/>
+            <path d="M36 38c12 0 18 6 18 14s-9 16-19 16c-9 0-17-5-17-13 0-10 8-17 18-17Z" fill="currentColor" opacity="0.78"/>
+            <path d="M84 38c10 0 18 7 18 17 0 8-8 13-17 13-10 0-19-8-19-16s6-14 18-14Z" fill="currentColor" opacity="0.78"/>
+            <path d="M60 56c16 0 28 10 28 24S76 102 60 102 32 92 32 80s12-24 28-24Z" fill="#b65bd7" opacity="0.84"/>
+        </svg>
+    </div>
+
+    <div class="theme-extra vibe-1 yami-heart">💗🖤</div>
+    <div class="theme-extra vibe-2 yami-skull">☠️💞</div>
+    <div class="theme-extra vibe-3 pastel-goth-lace">🕸️🖤</div>
+    <div class="theme-extra vibe-4 pastel-goth-moon">🌙🪻</div>
+    <div class="theme-extra vibe-1 deep-sea-jelly">
+        <svg viewBox="0 0 120 140" fill="none" aria-hidden="true">
+            <path d="M60 16c24 0 40 16 40 36S84 84 60 84 20 72 20 52 36 16 60 16Z" fill="currentColor" opacity="0.32"/>
+            <path d="M32 54c8 18 18 30 28 30s20-12 28-30" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M42 82c0 20-8 24-8 42M60 82c0 22 4 28 4 44M78 82c0 18 10 24 10 40" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-4 deep-sea-bloom">🪼✨</div>
+    <div class="theme-extra vibe-1 goat-horns">
+        <svg viewBox="0 0 140 110" fill="none" aria-hidden="true">
+            <path d="M52 90C28 74 22 38 42 16c8 18 16 30 30 40" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+            <path d="M88 90c24-16 30-52 10-74-8 18-16 30-30 40" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-3 goat-bell">🔔🌾</div>
+    <div class="theme-extra vibe-2 moth-luna">
+        <svg viewBox="0 0 140 120" fill="none" aria-hidden="true">
+            <path d="M70 28c8 8 12 18 12 30S78 84 70 92c-8-8-12-18-12-34s4-22 12-30Z" fill="currentColor"/>
+            <path d="M70 46c-16-20-38-22-54-10 8 12 18 22 36 26-16 4-28 14-36 26 16 12 38 10 54-10M70 46c16-20 38-22 54-10-8 12-18 22-36 26 18 4 28 14 36 26-16 12-38 10-54-10" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-4 moth-dust">🌕✨</div>
+    <div class="theme-extra vibe-2 bunny-ears">🐇💞</div>
+    <div class="theme-extra vibe-4 bunny-star">⭐️🎀</div>
+    <div class="theme-extra vibe-2 sea-bunny-slug">
+        <svg viewBox="0 0 140 120" fill="none" aria-hidden="true">
+            <path d="M26 74c0-18 18-32 42-32 26 0 46 12 46 28s-20 30-48 30c-24 0-40-10-40-26Z" fill="#ffffff" opacity="0.92"/>
+            <path d="M54 34c0-12 8-20 14-26 6 6 10 14 10 24M88 40c0-12 8-20 14-26 6 6 10 14 10 24" stroke="#ff8c42" stroke-width="8" stroke-linecap="round"/>
+            <path d="M36 82c16 8 38 8 58 0" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-4 sea-bunny-coral">🪸🌊</div>
 
     <!-- Vibes Extras -->
     <div class="theme-extra vibe-1 kiss-mark">💋</div>
@@ -150,6 +195,12 @@
             <path d="M50 54h20M60 44v20" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
         </svg>
     </div>
+    <div class="theme-extra vibe-1 hexcorp-grid">
+        <svg viewBox="0 0 140 120" fill="none" aria-hidden="true">
+            <path d="M28 24h28l14 24-14 24H28L14 48l14-24ZM84 48h28l14 24-14 24H84L70 72l14-24Z" stroke="currentColor" stroke-width="8"/>
+        </svg>
+    </div>
+    <div class="theme-extra vibe-4 hexcorp-sigil">⬡✦</div>
 
     <div class="theme-extra vibe-3 genderfluid-stream">
         <svg viewBox="0 0 160 120" fill="none" aria-hidden="true">
@@ -196,17 +247,17 @@
         </svg>
     </div>
 
-    <div class="theme-extra vibe-1 parasites-cell">
+    <div class="theme-extra vibe-1 parasites-larva">
         <svg viewBox="0 0 120 120" fill="none" aria-hidden="true">
-            <circle cx="60" cy="60" r="30" fill="currentColor" opacity="0.22" stroke="currentColor" stroke-width="8"/>
-            <circle cx="48" cy="52" r="6" fill="currentColor"/>
-            <circle cx="72" cy="68" r="8" fill="currentColor" opacity="0.8"/>
+            <path d="M28 70c0-22 14-34 34-34 18 0 30 10 30 28s-14 32-34 32S28 88 28 70Z" fill="currentColor" opacity="0.24" stroke="currentColor" stroke-width="8"/>
+            <circle cx="52" cy="58" r="6" fill="currentColor"/>
+            <circle cx="72" cy="72" r="7" fill="currentColor" opacity="0.84"/>
         </svg>
     </div>
-    <div class="theme-extra vibe-2 parasites-crawl">
+    <div class="theme-extra vibe-2 parasites-worm">
         <svg viewBox="0 0 140 100" fill="none" aria-hidden="true">
-            <path d="M14 54c16-22 36-22 52 0s34 22 60 0" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-            <path d="M30 42v-12M52 54v-12M78 52v-12M102 42V30" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+            <path d="M14 56c18-18 34-18 48 0s28 18 42 0 22-18 22 0" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+            <path d="M26 46c4 8 4 16 0 24M52 54c4 8 4 16 0 24M78 54c4 8 4 16 0 24M104 46c4 8 4 16 0 24" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
         </svg>
     </div>
 </div>
