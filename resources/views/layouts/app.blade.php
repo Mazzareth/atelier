@@ -502,6 +502,58 @@
             .nav-profile-dropdown { left: 0; right: auto; min-width: min(280px, calc(100vw - 2rem)); }
             .nav-menu-panel { grid-template-columns: 1fr; min-width: min(280px, calc(100vw - 2rem)); }
         }
+        body::before { transform-origin: center center; }
+
+        [data-theme="hypno"] body::before { animation: hypno-bg-drift calc(18s * var(--anim-speed)) linear infinite; }
+        @keyframes hypno-bg-drift { 0% { background-position: 0% 0%; transform: rotate(0deg) scale(1.1); } 100% { background-position: 100% 100%; transform: rotate(360deg) scale(1.1); } }
+
+        [data-theme="musk"] body::before { animation: musk-bg-drift calc(22s * var(--anim-speed)) ease-in-out infinite alternate; }
+        @keyframes musk-bg-drift { 0% { background-position: 0% 0%; } 100% { background-position: 100% 80%; } }
+
+        [data-theme="parasites"] body::before { animation: parasites-bg-wriggle calc(9s * var(--anim-speed)) ease-in-out infinite; }
+        @keyframes parasites-bg-wriggle { 0%, 100% { background-position: 0% 0%; } 33% { background-position: 30% 20%; } 66% { background-position: 70% 10%; } }
+
+        [data-theme="vore"] body::before { animation: vore-bg-breathe calc(6s * var(--anim-speed)) ease-in-out infinite; }
+        @keyframes vore-bg-breathe { 0%, 100% { transform: scale(1); opacity: var(--noise-opacity); } 50% { transform: scale(1.04); opacity: calc(var(--noise-opacity) * 1.6); } }
+
+        [data-theme="gay"] body::before { animation: gay-bg-shimmer calc(14s * var(--anim-speed)) linear infinite; }
+        @keyframes gay-bg-shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+        [data-theme="rubber"] body::before { animation: rubber-bg-crawl calc(16s * var(--anim-speed)) linear infinite; }
+        @keyframes rubber-bg-crawl { 0% { background-position: 0% 0%; } 100% { background-position: 100% 0%; } }
+
+        [data-theme="hypno"] body::before { background-size: 120px 120px; }
+        [data-theme="musk"] body::before { background-size: 200px 200px; }
+        [data-theme="parasites"] body::before { background-size: 80px 80px; }
+
+        body.theme-entering { pointer-events: none; }
+
+        @keyframes hypno-enter { 0% { filter: blur(8px) hue-rotate(180deg); opacity: 0.7; } 100% { filter: blur(0) hue-rotate(0deg); opacity: 1; } }
+        body.theme-entering-hypno { animation: hypno-enter calc(0.65s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes dominant-enter { 0% { filter: brightness(2.2) saturate(0); } 50% { filter: brightness(1.4) saturate(1.2); } 100% { filter: brightness(1) saturate(1); } }
+        body.theme-entering-dominant { animation: dominant-enter calc(0.35s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes rubber-enter { 0% { filter: contrast(3) brightness(2); } 100% { filter: contrast(1) brightness(1); } }
+        body.theme-entering-rubber { animation: rubber-enter calc(0.3s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes inflation-enter { 0% { transform: scale(0.96); filter: brightness(1.2) saturate(1.4); } 60% { transform: scale(1.01); } 100% { transform: scale(1); filter: brightness(1) saturate(1); } }
+        body.theme-entering-inflation { animation: inflation-enter calc(0.6s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+        @keyframes vore-enter { 0% { transform: scale(1.04); filter: brightness(0.6) saturate(1.5); } 100% { transform: scale(1); filter: brightness(1) saturate(1); } }
+        body.theme-entering-vore { animation: vore-enter calc(0.5s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes gay-enter { 0% { filter: saturate(3) brightness(1.3) hue-rotate(-20deg); } 100% { filter: saturate(1) brightness(1) hue-rotate(0deg); } }
+        body.theme-entering-gay { animation: gay-enter calc(0.55s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes trans-enter { 0% { filter: blur(4px) brightness(1.2); } 100% { filter: blur(0) brightness(1); } }
+        body.theme-entering-trans { animation: trans-enter calc(0.45s * var(--anim-speed)) ease-out forwards; }
+
+        @keyframes femboy-enter { 0% { transform: scale(1.02) rotate(0.5deg); } 60% { transform: scale(0.995) rotate(-0.2deg); } 100% { transform: scale(1) rotate(0deg); } }
+        body.theme-entering-femboy { animation: femboy-enter calc(0.55s * var(--anim-speed)) cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+        @keyframes parasites-enter { 0% { filter: brightness(0.7) saturate(2.2) hue-rotate(30deg); } 100% { filter: brightness(1) saturate(1) hue-rotate(0deg); } }
+        body.theme-entering-parasites { animation: parasites-enter calc(0.5s * var(--anim-speed)) ease-out forwards; }
     </style>
 </head>
 <body class="{{ request()->routeIs('conversations.*') ? 'chat-route' : '' }}">
@@ -537,6 +589,7 @@
             const extremeThemeWrappers = Array.from(document.querySelectorAll('.extreme-themes-optgroup'));
             const extremeThemes = ['guro', 'living_toilet', 'parasites'];
             const currentTheme = localStorage.getItem('atelier_theme') || 'default';
+            let themeEntranceTimeout;
 
             function refreshThemeAttributes() {
                 const styles = getComputedStyle(document.documentElement);
@@ -553,6 +606,16 @@
                 } else {
                     document.documentElement.setAttribute('data-theme', theme);
                 }
+                const body = document.body;
+                const enteringClasses = Array.from(body.classList).filter((className) => className === 'theme-entering' || className.startsWith('theme-entering-'));
+                if (enteringClasses.length) {
+                    body.classList.remove(...enteringClasses);
+                }
+                body.classList.add('theme-entering', `theme-entering-${theme}`);
+                clearTimeout(themeEntranceTimeout);
+                themeEntranceTimeout = window.setTimeout(() => {
+                    body.classList.remove('theme-entering', `theme-entering-${theme}`);
+                }, 700);
                 themeSelectors.forEach((selector) => {
                     selector.value = theme;
                 });
