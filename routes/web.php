@@ -8,6 +8,8 @@ use App\Http\Controllers\ArtistProfileController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationNotificationController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ProfileConfigController;
 
 use App\Http\Controllers\Atelier\PageBuilderController;
 use App\Http\Controllers\Commission\ArtistRequestInboxController;
@@ -169,26 +171,26 @@ Route::middleware(['auth', 'role:artist'])->prefix('atelier')->name('artist.')->
 Route::post('/profile/save-layout', [ArtistProfileController::class, 'saveLayout'])
     ->middleware(['auth', 'role:artist'])
     ->name('artist.profile.save');
-Route::post('/profile/configs', [ArtistProfileController::class, 'saveConfig'])
+Route::post('/profile/configs', [ProfileConfigController::class, 'saveConfig'])
     ->middleware(['auth', 'role:artist'])
     ->name('artist.profile.configs.save');
-Route::post('/profile/configs/load', [ArtistProfileController::class, 'loadConfig'])
+Route::post('/profile/configs/load', [ProfileConfigController::class, 'loadConfig'])
     ->middleware(['auth', 'role:artist'])
     ->name('artist.profile.configs.load');
-Route::delete('/profile/configs/{id}', [ArtistProfileController::class, 'deleteConfig'])
+Route::delete('/profile/configs/{id}', [ProfileConfigController::class, 'deleteConfig'])
     ->middleware(['auth', 'role:artist'])
     ->name('artist.profile.configs.delete');
 Route::delete('/profile/module/{id}', [ArtistProfileController::class, 'deleteModule'])
     ->middleware(['auth', 'role:artist']);
 Route::patch('/profile/module/{id}/settings', [ArtistProfileController::class, 'updateModuleSettings'])
     ->middleware(['auth', 'role:artist']);
-Route::post('/profile/module/{id}/gallery-images', [ArtistProfileController::class, 'uploadGalleryImages'])
+Route::post('/profile/module/{id}/gallery-images', [GalleryController::class, 'uploadGalleryImages'])
     ->middleware(['auth', 'role:artist'])
     ->name('artist.profile.gallery.upload');
-Route::get('/profile/module/{id}/gallery-images/{imageIndex}', [ArtistProfileController::class, 'showGalleryImage'])
+Route::get('/profile/module/{id}/gallery-images/{imageIndex}', [GalleryController::class, 'showGalleryImage'])
     ->whereNumber('imageIndex')
     ->name('artist.profile.gallery.show');
-Route::delete('/profile/module/{id}/gallery-images/{imageIndex}', [ArtistProfileController::class, 'deleteGalleryImage'])
+Route::delete('/profile/module/{id}/gallery-images/{imageIndex}', [GalleryController::class, 'deleteGalleryImage'])
     ->middleware(['auth', 'role:artist'])
     ->whereNumber('imageIndex')
     ->name('artist.profile.gallery.delete');
