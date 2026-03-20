@@ -10,8 +10,17 @@
                 <div class="dot"></div>
                 ● join
             </div>
-            <h1 class="serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;"><span class="light">Join as a</span> <span class="highlight">Commissioner.</span></h1>
-            <p class="hero-text serif" style="font-size: 1rem; margin-bottom: 2rem;">Create a basic account with just a username and password. This signup path does not create an artist profile.</p>
+            <h1 class="serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">
+                <span class="light">Join as a</span>
+                <span class="highlight">{{ $accountType === 'artist' ? 'Artist' : 'Client' }}.</span>
+            </h1>
+            <p class="hero-text serif" style="font-size: 1rem; margin-bottom: 2rem;">
+                @if($accountType === 'artist')
+                    Create your artist account. You'll be able to set up your profile and start receiving commission requests.
+                @else
+                    Create a client account to browse artists and send commission requests.
+                @endif
+            </p>
 
             @if($errors->any())
                 <div style="background: rgba(214, 41, 0, 0.15); border-left: 4px solid #d62900; padding: 1rem; margin-bottom: 1.5rem; color: #f0f4f2; font-size: 0.85rem;">
@@ -21,7 +30,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register') }}" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <form method="POST" action="{{ route('register', ['type' => $accountType]) }}" style="display: flex; flex-direction: column; gap: 1.5rem;">
                 @csrf
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label for="username" class="mono" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Username</label>
@@ -42,13 +51,19 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="justify-content: center; margin-top: 1rem; width: 100%;">
-                    Create account <span class="arrow">→</span>
+                    Create {{ $accountType === 'artist' ? 'artist' : 'client' }} account <span class="arrow">→</span>
                 </button>
             </form>
 
             <div class="mono" style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
                 Already have an account?
                 <a href="{{ route('login') }}" style="color: var(--accent-color); text-decoration: none;">Log in</a>
+            </div>
+
+            <div class="mono" style="margin-top: 1rem; font-size: 0.72rem; color: var(--text-muted); text-align: center; opacity: 0.7;">
+                <a href="{{ route('onboard') }}" style="color: var(--text-muted); text-decoration: none;">
+                    ← Wrong type? Choose again
+                </a>
             </div>
         </div>
     </div>

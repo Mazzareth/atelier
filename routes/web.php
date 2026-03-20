@@ -11,6 +11,7 @@ use App\Http\Controllers\ConversationNotificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileConfigController;
 use App\Http\Controllers\Commission\ArtistRequestInboxController;
 use App\Http\Controllers\Commission\CommissionMessageController;
@@ -30,6 +31,9 @@ Route::get('/pricing', function() {
 Route::get('/plans', function() {
     return view('plans');
 })->middleware('auth')->name('plans');
+
+// Onboarding
+Route::get('/onboard', [OnboardingController::class, 'index'])->name('onboard');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

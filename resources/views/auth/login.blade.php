@@ -41,8 +41,8 @@
             </form>
 
             <div class="mono" style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
-                New here as a commissioner?
-                <a href="{{ route('register') }}" style="color: var(--accent-color); text-decoration: none;">Create an account</a>
+                New here?
+                <a href="{{ route('onboard') }}" style="color: var(--accent-color); text-decoration: none;">Create an account</a>
             </div>
         </div>
     </div>
