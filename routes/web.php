@@ -1,34 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RoleSwitchController;
-use App\Http\Controllers\Auth\AuthController;
-
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\ArtistProfileController;
+use App\Http\Controllers\Atelier\AtelierDashboardController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationNotificationController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowController;
-
-use App\Http\Controllers\Atelier\PageBuilderController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\RoleSwitchController;
 use App\Http\Controllers\Commission\ArtistRequestInboxController;
 use App\Http\Controllers\Commission\CommissionMessageController;
 use App\Http\Controllers\Commission\CommissionNotificationController;
 use App\Http\Controllers\Commission\CommissionRequestController;
 use App\Http\Controllers\Commission\WorkspaceController;
+use App\Http\Controllers\WelcomeController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $users = collect();
-
-    try {
-        $users = \App\Models\User::where('role', 'artist')
-            ->whereNotNull('username')
-            ->pluck('username');
-    } catch (\Throwable $e) {
-        report($e);
-    }
-
-    return view('welcome', compact('users'));
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 // Pricing / Plans
 Route::get('/pricing', function() {
@@ -52,49 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/browse', [ArtistProfileController::class, 'browse'])->name('browse');
 
     // The main personal feed (consumer view)
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        $myRequests = \App\Models\CommissionRequest::with('artist', 'conversation')
-            ->where('requester_id', $user->id)
-            ->latest()
-            ->limit(6)
-            ->get();
-
-        $followedArtistIds = \Illuminate\Support\Facades\DB::table('followers')
-            ->where('follower_id', $user->id)
-            ->pluck('user_id');
-
-        $followedArtists = \App\Models\User::whereIn('id', $followedArtistIds)
-            ->whereNotNull('username')
-            ->with(['profileModules' => function ($query) {
-                $query->whereIn('type', ['avatar_info', 'bio', 'gallery_feed', 'comm_slots']);
-            }])
-            ->orderByDesc('follower_count')
-            ->get();
-
-        $suggestedArtists = \App\Models\User::where('role', 'artist')
-            ->whereNotNull('username')
-            ->where('id', '!=', $user->id)
-            ->when($followedArtistIds->count(), fn ($query) => $query->whereNotIn('id', $followedArtistIds))
-            ->with(['profileModules' => function ($query) {
-                $query->whereIn('type', ['avatar_info', 'bio', 'comm_slots']);
-            }])
-            ->orderByDesc('follower_count')
-            ->limit(4)
-            ->get();
-
-        return view('dashboard', compact('myRequests', 'followedArtists', 'suggestedArtists'));
-    })->name('dashboard');
-
-    Route::get('/my-requests', function () {
-        $myRequests = \App\Models\CommissionRequest::with('artist', 'conversation')
-            ->where('requester_id', auth()->id())
-            ->latest()
-            ->get();
-
-        return view('commission.index', compact('myRequests'));
-    })->name('commission.index');
+    Route::get('/my-requests', [DashboardController::class, 'myRequests'])->name('commission.index');
 
     Route::get('/messages', [ConversationController::class, 'index'])->name('conversations.index');
     Route::get('/messages/start/{username}', [ConversationController::class, 'start'])->name('conversations.start');
@@ -121,31 +70,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Artist Workspace (Atelier)
 Route::middleware(['auth', 'role:artist'])->prefix('atelier')->name('artist.')->group(function () {
-    Route::get('/dashboard', function () {
-        $artist = auth()->user();
-
-        $requests = \App\Models\CommissionRequest::where('artist_id', $artist->id)->get();
-        $activeCount = $requests
-            ->where('status', \App\Models\CommissionRequest::STATUS_ACCEPTED)
-            ->whereIn('tracker_stage', [
-                \App\Models\CommissionRequest::TRACKER_QUEUE,
-                \App\Models\CommissionRequest::TRACKER_ACTIVE,
-                \App\Models\CommissionRequest::TRACKER_DELIVERY,
-            ])->count();
-        $newRequestsCount = $requests->where('status', \App\Models\CommissionRequest::STATUS_PENDING)->count();
-        $closedCount = $requests->where('status', \App\Models\CommissionRequest::STATUS_ACCEPTED)
-            ->where('tracker_stage', \App\Models\CommissionRequest::TRACKER_DONE)
-            ->count();
-        $pendingRevenue = $requests->where('status', \App\Models\CommissionRequest::STATUS_ACCEPTED)
-            ->whereIn('tracker_stage', [
-                \App\Models\CommissionRequest::TRACKER_QUEUE,
-                \App\Models\CommissionRequest::TRACKER_ACTIVE,
-                \App\Models\CommissionRequest::TRACKER_DELIVERY,
-            ])->sum(fn ($request) => (float) ($request->budget ?? 0));
-        $lastEditedAt = optional($artist->profileModules()->latest('updated_at')->first())->updated_at;
-
-        return view('atelier.dashboard', compact('activeCount', 'newRequestsCount', 'closedCount', 'pendingRevenue', 'lastEditedAt'));
-    })->name('dashboard');
+    Route::get('/dashboard', [AtelierDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/requests', [ArtistRequestInboxController::class, 'index'])->name('requests.index');
     Route::get('/commissions', [ArtistRequestInboxController::class, 'tracker'])->name('artist.commissions.index');
@@ -195,9 +120,7 @@ Route::delete('/profile/module/{id}/gallery-images/{imageIndex}', [ArtistProfile
 
 // Platform Admin Area
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 });
 
 // Public Artist Profile (Must be at the bottom to avoid catching other routes)
