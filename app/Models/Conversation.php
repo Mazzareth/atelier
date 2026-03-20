@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksReadStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Conversation extends Model
 {
     use HasFactory;
+    use TracksReadStatus;
 
     protected $fillable = [
         'user_one_id',
@@ -67,22 +70,18 @@ class Conversation extends Model
         return null;
     }
 
-    public function unreadCountFor(User $user): int
+    protected function getReadAtFor(User $user): ?Carbon
     {
-        $readAt = $this->user_one_id === $user->id
+        return $this->user_one_id === $user->id
             ? $this->user_one_last_read_at
             : ($this->user_two_id === $user->id ? $this->user_two_last_read_at : null);
-
-        return $this->messages()
-            ->where('user_id', '!=', $user->id)
-            ->when($readAt, fn ($query) => $query->where('created_at', '>', $readAt))
-            ->count();
     }
 
-    public function markReadFor(User $user): void
+    protected function setReadAtFor(User $user): void
     {
         if ($this->user_one_id === $user->id) {
             $this->forceFill(['user_one_last_read_at' => now()])->save();
+
             return;
         }
 
