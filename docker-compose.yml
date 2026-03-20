@@ -1,0 +1,57 @@
+services:
+  laravel.test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: saas-app
+    ports:
+      - '8000:80'
+      - '8080:8080'
+    environment:
+      WWWUSER: '${WWWUSER:-1000}'
+      LARAVEL_SAIL: 1
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - sail
+    depends_on:
+      - pgsql
+      - redis
+      - meilisearch
+
+  pgsql:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_USER: sail
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: laravel
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+    networks:
+      - sail
+
+  redis:
+    image: 'redis:alpine'
+    volumes:
+      - redis:/data
+    networks:
+      - sail
+
+  meilisearch:
+    image: 'getmeili/meilisearch:latest'
+    environment:
+      MEILI_NO_ANALYTICS: 'true'
+    networks:
+      - sail
+
+networks:
+  sail:
+    driver: bridge
+
+volumes:
+  pgsql:
+    driver: local
+  redis:
+    driver: local
