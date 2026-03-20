@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksReadStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CommissionRequest extends Model
 {
     use HasFactory;
+    use TracksReadStatus {
+        unreadCountFor as private trackUnreadCountFor;
+        markReadFor as private trackMarkReadFor;
+    }
 
     protected $fillable = [
         'artist_id',
@@ -82,14 +87,7 @@ class CommissionRequest extends Model
             return $this->conversation->unreadCountFor($user);
         }
 
-        $readAt = $this->artist_id === $user->id
-            ? $this->artist_last_read_at
-            : $this->requester_last_read_at;
-
-        return $this->messages()
-            ->where('user_id', '!=', $user->id)
-            ->when($readAt, fn ($query) => $query->where('created_at', '>', $readAt))
-            ->count();
+        return $this->trackUnreadCountFor($user);
     }
 
     public function markReadFor(User $user): void
@@ -98,8 +96,21 @@ class CommissionRequest extends Model
             $this->conversation->markReadFor($user);
         }
 
+        $this->trackMarkReadFor($user);
+    }
+
+    protected function getReadAtFor(User $user): ?Carbon
+    {
+        return $this->artist_id === $user->id
+            ? $this->artist_last_read_at
+            : $this->requester_last_read_at;
+    }
+
+    protected function setReadAtFor(User $user): void
+    {
         if ($this->artist_id === $user->id) {
             $this->forceFill(['artist_last_read_at' => now()])->save();
+
             return;
         }
 
