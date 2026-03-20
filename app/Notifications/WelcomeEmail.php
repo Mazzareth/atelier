@@ -6,36 +6,53 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class WelcomeEmail extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    /**
+     * Get the notification's delivery channels.
+     */
     public function via(object $notifiable): array
     {
         return ['mail'];
     }
 
+    /**
+     * Get the mail representation of the notification.
+     */
     public function toMail(object $notifiable): MailMessage
     {
-        $isArtist = $notifiable->role === 'artist';
+        $isArtist = $notifiable->role && $notifiable->role->value === 'artist';
+
+        $actionUrl = $isArtist
+            ? url('/' . $notifiable->username)
+            : url('/browse');
+
+        $actionText = $isArtist ? 'Set Up Your Profile' : 'Browse Artists';
+
+        $subject = $isArtist
+            ? "Welcome to Atelier, {$notifiable->name}"
+            : "Welcome to Atelier, {$notifiable->name}";
 
         return (new MailMessage)
-            ->subject("Welcome to Atelier, {$notifiable->name}")
-            ->greeting("Hey {$notifiable->name}!")
-            ->line($isArtist
-                ? "Your artist account is ready. You can now set up your profile and start receiving commission requests."
-                : "You're all set! Browse artists, follow your favorites, and send your first commission request.")
-            ->action($isArtist ? 'Set Up Your Profile' : 'Browse Artists', url('/'))
-            ->line($isArtist
-                ? "Tip: Add modules to your page to showcase your work, set your commission status, and build your presence."
-                : "Tip: Follow artists you like to get updates when they post new work or open their commission queue.");
+            ->subject($subject)
+            ->view('emails.welcome', [
+                'userName' => $notifiable->name,
+                'isArtist' => $isArtist,
+                'actionUrl' => $actionUrl,
+                'actionText' => $actionText,
+                'subject' => $subject,
+            ]);
     }
 
+    /**
+     * Get the array representation of the notification.
+     */
     public function toArray(object $notifiable): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

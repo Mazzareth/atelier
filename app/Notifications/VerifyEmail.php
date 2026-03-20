@@ -36,11 +36,11 @@ class VerifyEmail extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->subject('Verify Your Email Address')
-            ->greeting("Hey {$notifiable->name}!")
-            ->line('Click the button below to verify your email address and unlock all features.')
-            ->action('Verify Email', $verificationUrl)
-            ->line('This link expires in 60 minutes.')
-            ->line('If you did not create an account, no further action is required.');
+            ->view('emails.verify', [
+                'userName' => $notifiable->name,
+                'verifyUrl' => $verificationUrl,
+                'subject' => 'Verify Your Email Address',
+            ]);
     }
 
     /**
