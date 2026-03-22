@@ -9,11 +9,12 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'username', 'email', 'password', 'role', 'active_profile', 'page_layout', 'total_revenue', 'subscriber_count', 'commission_count'])]
+#[Fillable(['name', 'username', 'email', 'password', 'role', 'active_profile', 'page_layout', 'total_revenue', 'subscriber_count', 'commission_count', 'viewer_identity', 'theme'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -83,5 +84,17 @@ class User extends Authenticatable
     public function sentCommissionRequests(): HasMany
     {
         return $this->hasMany(CommissionRequest::class, 'requester_id');
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'followers', 'user_id', 'follower_id')
+            ->withTimestamps();
+    }
+
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'followers', 'follower_id', 'user_id')
+            ->withTimestamps();
     }
 }

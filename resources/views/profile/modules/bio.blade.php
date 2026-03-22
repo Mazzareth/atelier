@@ -1,41 +1,31 @@
-<div class="module-wrapper {{ $isEditMode ?? false ? 'draggable' : '' }}" data-id="{{ $module->id }}" data-type="bio" data-settings="{{ json_encode($module->settings ?? []) }}">
-    @if($isEditMode ?? false)
-    <div class="module-edit-overlay">
-        <div class="mod-btn drag-handle" title="Drag">↕</div>
-        <div class="mod-btn mod-btn-edit" title="Edit Text">✏</div>
-        <div class="mod-btn mod-btn-delete" title="Delete" style="color: #ff4d4d;">🗑</div>
-    </div>
-    @endif
-    <!-- Bio / Text Module -->
-    <div style="background: var(--bg-panel); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 8px; border-left: 4px solid var(--accent-color);">
-        <div class="module-content" style="color: var(--text-main); line-height: 1.6; white-space: pre-wrap;">
-            @php
-                $text = $module->settings['text'] ?? 'Welcome to my atelier. I draw weird, wonderful, and beautiful things.';
-                
-                // Helper to render basic markdown for Atelier
-                $html = e($text);
-                
-                // Headers
-                $html = preg_replace('/^# (.+)/m', '<h1 class="serif" style="font-size: 2.2rem; color: var(--accent-color); margin-bottom: 1rem;">$1</h1>', $html);
-                $html = preg_replace('/^## (.+)/m', '<h2 class="serif" style="font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.8rem;">$1</h2>', $html);
-                $html = preg_replace('/^### (.+)/m', '<h3 class="serif" style="font-size: 1.4rem; color: var(--accent-color); margin-bottom: 0.6rem;">$1</h3>', $html);
+@php
+    $text = $module->settings['text'] ?? 'Welcome to my atelier. I draw weird, wonderful, and beautiful things.';
 
-                // Formatting
-                $html = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $html);
-                $html = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $html);
-                $html = preg_replace('/`(.+?)`/', '<code style="background: var(--bg-color); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent-color); font-family: monospace;">$1</code>', $html);
-                
-                // Media / Links
-                $html = preg_replace('/!\[(.*?)\]\((.+?)\)/', '<img src="$2" alt="$1" style="max-width: 100%; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--border-color);">', $html);
-                $html = preg_replace('/\[(.+?)\]\((.+?)\)/', '<a href="$2" target="_blank" style="color: var(--accent-color); text-decoration: underline;">$1</a>', $html);
-                
-                // Structure
-                $html = preg_replace('/^&gt; (.+)/m', '<blockquote style="border-left: 4px solid var(--accent-color); padding: 0.5rem 1rem; color: var(--text-muted); background: var(--bg-color); border-radius: 0 4px 4px 0; margin: 1rem 0;">$1</blockquote>', $html);
-                $html = preg_replace('/^- (.+)/m', '<li style="margin-left: 1.5rem;">$1</li>', $html);
-                
-                $html = nl2br($html);
-            @endphp
+    // Render basic markdown (shared helper)
+    $html = e($text);
+    $html = preg_replace('/^# (.+)/m', '<h1 class="text-3xl font-bold font-serif text-accent mb-4 mt-8 first:mt-0">$1</h1>', $html);
+    $html = preg_replace('/^## (.+)/m', '<h2 class="text-2xl font-bold font-serif text-accent mb-3 mt-6">$1</h2>', $html);
+    $html = preg_replace('/^### (.+)/m', '<h3 class="text-xl font-bold font-serif text-accent mb-2 mt-4">$1</h3>', $html);
+    $html = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $html);
+    $html = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $html);
+    $html = preg_replace('/`(.+?)`/', '<code class="bg-surface px-1.5 py-0.5 rounded text-accent font-mono text-sm">$1</code>', $html);
+    $html = preg_replace('/!\[(.*?)\]\((.+?)\)/', '<img src="$2" alt="$1" class="max-w-full rounded-lg my-4 border border-border">', $html);
+    $html = preg_replace('/\[(.+?)\]\((.+?)\)/', '<a href="$2" target="_blank" class="text-accent hover:underline">$1</a>', $html);
+    $html = preg_replace('/^&gt; (.+)/m', '<blockquote class="border-l-4 border-accent pl-4 py-2 text-muted bg-surface/50 rounded-r my-4 italic">$1</blockquote>', $html);
+    $html = preg_replace('/^- (.+)/m', '<li class="ml-6 list-disc mb-1">$1</li>', $html);
+    $html = nl2br($html);
+@endphp
+
+<x-profile-module :module="$module" :isEditMode="$isEditMode ?? false" type="bio" class="group">
+    <x-card padding="lg" class="border-l-4 border-l-accent relative overflow-hidden">
+        {{-- Decorative element for extreme/mommy themes via CSS pseudo-elements if needed, handled by tokens.css --}}
+        
+        <div class="font-mono text-xs uppercase tracking-widest text-accent mb-4 opacity-70">
+            About
+        </div>
+        
+        <div class="prose prose-invert max-w-none text-main leading-relaxed">
             {!! $html !!}
         </div>
-    </div>
-</div>
+    </x-card>
+</x-profile-module>

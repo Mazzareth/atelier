@@ -66,16 +66,11 @@
 
         <section style="border: 1px solid var(--border-color); border-radius: 14px; padding: 1rem; background: color-mix(in srgb, var(--bg-color) 65%, transparent);">
             <h4 class="mono" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 1rem;">Theme preview</h4>
-            <div id="theme-swatches" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;">
-                <button type="button" class="theme-swatch-btn mono" data-theme="default">Default</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="gay">Gay</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="trans">Trans</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="lesbian">Lesbian</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="bi">Bi</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="pan">Pan</button>
+            <div id="theme-swatches" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;">
+                <button type="button" class="theme-swatch-btn mono" data-theme="default">Atelier</button>
+                <button type="button" class="theme-swatch-btn mono" data-theme="rubber">Latex</button>
                 <button type="button" class="theme-swatch-btn mono" data-theme="femboy">Femboy</button>
                 <button type="button" class="theme-swatch-btn mono" data-theme="dominant">Dom</button>
-                <button type="button" class="theme-swatch-btn mono" data-theme="musk">Musk</button>
             </div>
         </section>
 

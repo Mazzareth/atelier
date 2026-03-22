@@ -1,20 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
-    <div style="background: var(--bg-panel); border: 1px solid var(--border-color); padding: 3rem; border-radius: 8px; width: 100%; max-width: 450px; position: relative;">
-        <div class="theme-extra" style="display: block; position: absolute; top: -30px; left: -30px; font-size: 4rem; opacity: 0.1; pointer-events: none; z-index: 0;">✦</div>
+<div class="container min-h-screen flex items-center justify-center py-12">
+    <x-card padding="lg" class="w-full max-w-md relative overflow-hidden">
+        {{-- Decorative element --}}
+        <div class="absolute -top-8 -left-8 text-6xl opacity-10 pointer-events-none select-none" aria-hidden="true">
+            ✦
+        </div>
 
-        <div style="position: relative; z-index: 1;">
-            <div class="pill mono" style="margin-bottom: 1.5rem;">
-                <div class="dot"></div>
-                ● join
-            </div>
-            <h1 class="serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">
-                <span class="light">Join as a</span>
-                <span class="highlight">{{ $accountType === 'artist' ? 'Artist' : 'Client' }}.</span>
+        <div class="relative z-10">
+            <x-badge variant="muted" size="sm" class="mb-6">
+                <span class="inline-block w-2 h-2 rounded-full bg-current mr-2"></span>
+                Join
+            </x-badge>
+            
+            <h1 class="text-4xl font-bold mb-2">
+                Join as a <span class="text-accent">{{ $accountType === 'artist' ? 'Artist' : 'Client' }}.</span>
             </h1>
-            <p class="hero-text serif" style="font-size: 1rem; margin-bottom: 2rem;">
+            <p class="text-muted mb-8">
                 @if($accountType === 'artist')
                     Create your artist account. You'll be able to set up your profile and start receiving commission requests.
                 @else
@@ -23,49 +26,54 @@
             </p>
 
             @if($errors->any())
-                <div style="background: rgba(214, 41, 0, 0.15); border-left: 4px solid #d62900; padding: 1rem; margin-bottom: 1.5rem; color: #f0f4f2; font-size: 0.85rem;">
+                <div class="bg-red-500/10 border-l-4 border-red-500 p-4 mb-6 text-red-500 text-sm">
                     @foreach($errors->all() as $error)
                         <div>{{ $error }}</div>
                     @endforeach
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register', ['type' => $accountType]) }}" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <form method="POST" action="{{ route('register', ['type' => $accountType]) }}" class="flex flex-col gap-6">
                 @csrf
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label for="username" class="mono" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Username</label>
-                    <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus
-                        style="background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.8rem 1rem; border-radius: 4px; outline: none; font-size: 0.9rem;">
-                </div>
+                
+                <x-input 
+                    name="username" 
+                    label="Username" 
+                    :value="old('username')" 
+                    required 
+                    autofocus 
+                />
 
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label for="password" class="mono" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Password</label>
-                    <input type="password" id="password" name="password" required
-                        style="background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.8rem 1rem; border-radius: 4px; outline: none; font-size: 0.9rem;">
-                </div>
+                <x-input 
+                    type="password" 
+                    name="password" 
+                    label="Password" 
+                    required 
+                />
 
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label for="password_confirmation" class="mono" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Confirm Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required
-                        style="background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.8rem 1rem; border-radius: 4px; outline: none; font-size: 0.9rem;">
-                </div>
+                <x-input 
+                    type="password" 
+                    name="password_confirmation" 
+                    label="Confirm Password" 
+                    required 
+                />
 
-                <button type="submit" class="btn btn-primary" style="justify-content: center; margin-top: 1rem; width: 100%;">
-                    Create {{ $accountType === 'artist' ? 'artist' : 'client' }} account <span class="arrow">→</span>
-                </button>
+                <x-button type="submit" variant="primary" class="w-full justify-center mt-2">
+                    Create {{ $accountType === 'artist' ? 'artist' : 'client' }} account <span class="ml-2">→</span>
+                </x-button>
             </form>
 
-            <div class="mono" style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
+            <div class="mt-8 text-center text-sm font-mono text-muted uppercase tracking-wide">
                 Already have an account?
-                <a href="{{ route('login') }}" style="color: var(--accent-color); text-decoration: none;">Log in</a>
+                <a href="{{ route('login') }}" class="text-accent hover:underline ml-1">Log in</a>
             </div>
 
-            <div class="mono" style="margin-top: 1rem; font-size: 0.72rem; color: var(--text-muted); text-align: center; opacity: 0.7;">
-                <a href="{{ route('onboard') }}" style="color: var(--text-muted); text-decoration: none;">
+            <div class="mt-4 text-center text-xs font-mono text-muted uppercase tracking-wide opacity-70">
+                <a href="{{ route('onboard') }}" class="hover:underline">
                     ← Wrong type? Choose again
                 </a>
             </div>
         </div>
-    </div>
+    </x-card>
 </div>
 @endsection

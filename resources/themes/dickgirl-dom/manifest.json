@@ -1,0 +1,121 @@
+{
+    "name": "Dickgirl Dom",
+    "personality": "Commanding, Direct, Unapologetic",
+    "description": "You know what you're looking for. So do I. Let's not waste time.",
+    "requires_identity": true,
+    "identity": {
+        "male": {
+            "treatment": "teased",
+            "pronoun": "he",
+            "label": "Little One"
+        },
+        "female": {
+            "treatment": "bred",
+            "pronoun": "she",
+            "label": "Breeding Mare"
+        },
+        "dickgirl": {
+            "treatment": "respected",
+            "pronoun": "she",
+            "label": "Equal"
+        },
+        "other": {
+            "treatment": "handled",
+            "pronoun": "they",
+            "label": "Guest"
+        }
+    },
+    "language": {
+        "buttons": {
+            "default": "Come Here",
+            "hover": "Earn It",
+            "loading": "Wait...",
+            "disabled": "Not Yet",
+            "save": "Noted",
+            "cancel": "Later",
+            "delete": "Gone",
+            "edit": "Fix It",
+            "close": "Dismiss",
+            "send": "Submit",
+            "next": "Continue",
+            "previous": "Back"
+        },
+        "nav": {
+            "home": "Home",
+            "profile": "My Space",
+            "settings": "Control",
+            "dashboard": "Dashboard",
+            "logout": "Leave",
+            "login": "Enter",
+            "register": "Join",
+            "browse": "Find Artists",
+            "messages": "Connect",
+            "notifications": "Alerts"
+        },
+        "cards": {
+            "collapse": "Less",
+            "expand": "More",
+            "close": "Close",
+            "view": "View",
+            "more": "More"
+        },
+        "messages": {
+            "welcome": "You found me.",
+            "success": "Done.",
+            "error": "Try again.",
+            "warning": "Careful.",
+            "loading": "Working...",
+            "empty": "Nothing here.",
+            "confirm": "Sure?"
+        },
+        "page": {
+            "title": "Atelier",
+            "subtitle": "I run this."
+        },
+        "identity_aware": {
+            "greeting_male": "Look at you. Finally found what you were looking for.",
+            "greeting_female": "I know what you need. Let me show you.",
+            "greeting_dickgirl": "One of us. Welcome.",
+            "greeting_other": "Make yourself comfortable.",
+            "browse_male": "Find someone who'll put you in your place.",
+            "browse_female": "Find someone worthy of breeding you.",
+            "browse_dickgirl": "Find your equals.",
+            "browse_other": "Find what you're looking for.",
+            "commission_male": "Tell me what you want. Be specific.",
+            "commission_female": "What are you offering me?",
+            "commission_dickgirl": "What do you want to create together?",
+            "commission_other": "What do you need?",
+            "empty_male": "Nothing here yet. But you'll fill it soon enough.",
+            "empty_female": "Nothing here. Come back when you're ready to be bred.",
+            "empty_dickgirl": "Nothing here. Add something worth my time.",
+            "empty_other": "Nothing here yet."
+        }
+    },
+    "layout": {
+        "navStyle": "tight",
+        "navPosition": "top",
+        "cardGap": "tight",
+        "contentDensity": "high",
+        "maxWidth": "1200px",
+        "sidebarWidth": "260px"
+    },
+    "behaviors": {
+        "hover": "compress",
+        "click": "press",
+        "transition": "fast",
+        "animationSpeed": 0.8
+    },
+    "components": {
+        "button": {
+            "style": "bold",
+            "iconPosition": "right"
+        },
+        "card": {
+            "style": "tight",
+            "shadow": "hard"
+        },
+        "input": {
+            "style": "tight"
+        }
+    }
+}

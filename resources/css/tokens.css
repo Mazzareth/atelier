@@ -1,0 +1,701 @@
+/**
+ * Atelier Design Tokens
+ * ====================
+ * Layer 1: Base tokens — neutral, no personality
+ * Layer 2: Semantic tokens — what components actually use
+ * Layer 3: Theme tokens — per-theme overrides only
+ * 
+ * RULE: Components NEVER reference base color tokens directly.
+ *       They use semantic tokens only. Themes override base tokens.
+ */
+
+:root {
+  /* ─── SPACING ──────────────────────────────────────── */
+  --space-0:  0;
+  --space-px: 1px;
+  --space-0-5: 2px;
+  --space-1:  4px;
+  --space-1-5: 6px;
+  --space-2:  8px;
+  --space-2-5: 10px;
+  --space-3:  12px;
+  --space-3-5: 14px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ─── TYPOGRAPHY ───────────────────────────────────── */
+  --font-sans:  'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'Courier New', 'Lucida Console', monospace;
+
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;        /* 16px */
+  --text-lg:   1.125rem;    /* 18px */
+  --text-xl:   1.25rem;     /* 20px */
+  --text-2xl:  1.5rem;      /* 24px */
+  --text-3xl:  1.875rem;    /* 30px */
+  --text-4xl:  2.25rem;     /* 36px */
+  --text-5xl:  3rem;        /* 48px */
+
+  --leading-none:    1;
+  --leading-tight:   1.25;
+  --leading-snug:    1.375;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose:   2;
+
+  --tracking-tighter: -0.05em;
+  --tracking-tight:   -0.025em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.025em;
+  --tracking-wider:   0.05em;
+  --tracking-widest:  0.1em;
+
+  /* ─── BORDERS ───────────────────────────────────────── */
+  --radius-none: 0;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  --border-width-thin: 1px;
+  --border-width-md:   1px;
+  --border-width-thick: 2px;
+
+  /* ─── SHADOWS ───────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.1),  0 10px 10px rgba(0,0,0,0.04);
+  --shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);
+  --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+
+  /* ─── TRANSITIONS ───────────────────────────────────── */
+  --transition-none: none;
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  --transition-slower: 500ms ease;
+
+  /* ─── Z-INDEX ───────────────────────────────────────── */
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:      400;
+  --z-toast:      500;
+  --z-tooltip:   600;
+
+  /* ─── LAYOUT ────────────────────────────────────────── */
+  --container-sm:  640px;
+  --container-md:  768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SEMANTIC TOKENS — Components use these, not base tokens
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* Semantic colors */
+  --color-accent:      var(--accent);
+  --color-accent-soft: var(--accent-dim);
+  --color-bg:          var(--bg-color);
+  --color-surface:      var(--bg-panel);
+  --color-border:      var(--border-color);
+  --color-text:        var(--text-main);
+  --color-muted:       var(--text-muted);
+  --color-success:     #22c55e;
+  --color-error:       #ef4444;
+  --color-warning:     #f59e0b;
+  --color-info:        #3b82f6;
+
+  /* Button tokens */
+  --btn-font:          var(--font-sans);
+  --btn-weight:       600;
+  --btn-radius:        var(--radius-md);
+  --btn-padding-x:     var(--space-4);
+  --btn-padding-y:     var(--space-2-5);
+  --btn-font-size:     var(--text-sm);
+  --btn-border-width:  var(--border-width-thin);
+  --btn-transition:    var(--transition-fast);
+
+  /* Card tokens */
+  --card-bg:           var(--color-surface);
+  --card-border:       var(--color-border);
+  --card-radius:       var(--radius-lg);
+  --card-padding:      var(--space-4);
+  --card-shadow:       var(--shadow-sm);
+
+  /* Input tokens */
+  --input-bg:          var(--color-bg);
+  --input-border:      var(--color-border);
+  --input-color:      var(--color-text);
+  --input-muted:      var(--color-muted);
+  --input-radius:      var(--radius-sm);
+  --input-padding-x:   var(--space-3);
+  --input-padding-y:   var(--space-2-5);
+  --input-font-size:   var(--text-sm);
+  --input-shadow:      var(--shadow-inner);
+  --input-transition:   var(--transition-fast);
+
+  /* Nav tokens */
+  --nav-bg:            var(--color-surface);
+  --nav-border:        var(--color-border);
+  --nav-height:        64px;
+  --nav-padding-x:     var(--space-6);
+
+  /* Link tokens */
+  --link-color:        var(--color-accent);
+  --link-hover:        var(--color-text);
+  --link-underline:     none;
+
+  /* Focus ring */
+  --focus-ring:        0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+  --focus-ring-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE THEME TOKENS — The "blank slate"
+   Default Atelier theme — neutral green, square-ish
+   ═══════════════════════════════════════════════════════ */
+
+:root,
+[data-theme="default"] {
+  --bg-color:         #0f1210;
+  --bg-panel:         #161b18;
+  --accent:           #2bdc6c;
+  --accent-rgb:       43, 220, 108;
+  --accent-dim:       rgba(43, 220, 108, 0.12);
+  --text-main:        #f0f4f2;
+  --text-muted:       #8c9b92;
+  --border-color:     #232b26;
+
+  --stripe-bg:        none;
+  --stripe-height:    0;
+
+  --theme-radius-mult:  1;
+  --theme-font:         var(--font-sans);
+  --theme-weight:       450;
+  --theme-letter:       0.01em;
+  --theme-uppercase:    none;
+  --theme-shadow-mult:   1;
+  --theme-gap-mult:      1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   THEME OVERRIDES
+   Each theme overrides ONLY base tokens. No structural CSS.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Pride Themes ── */
+
+[data-theme="gay"] {
+  --bg-color:   #130f18;
+  --bg-panel:   #1c1523;
+  --accent:     #7d41d9;
+  --accent-rgb: 125, 65, 217;
+  --accent-dim: rgba(125, 65, 217, 0.12);
+  --text-main:  #f7f3ff;
+  --text-muted: #bfb0d8;
+  --border-color: #34264a;
+  --theme-font: 'Trebuchet MS', sans-serif;
+  --theme-weight: 700;
+  --theme-letter: 0.08em;
+  --theme-radius-mult: 1;
+}
+
+[data-theme="trans"] {
+  --bg-color:   #0f1418;
+  --bg-panel:   #162028;
+  --accent:     #55cdfc;
+  --accent-rgb: 85, 205, 252;
+  --accent-dim: rgba(85, 205, 252, 0.12);
+  --text-main:  #eef8ff;
+  --text-muted: #a5c2d2;
+  --border-color: #28414e;
+  --theme-font: 'Avenir Next', sans-serif;
+  --theme-radius-mult: 1.5;
+}
+
+[data-theme="lesbian"] {
+  --bg-color:   #170e11;
+  --bg-panel:   #24171c;
+  --accent:     #ff8f50;
+  --accent-rgb: 255, 143, 80;
+  --accent-dim: rgba(255, 143, 80, 0.12);
+  --text-main:  #fff2ee;
+  --text-muted: #d9b0a4;
+  --border-color: #4d2b2c;
+  --theme-font: var(--font-serif);
+  --theme-weight: 700;
+  --theme-radius-mult: 1.5;
+}
+
+[data-theme="bi"] {
+  --bg-color:   #100d16;
+  --bg-panel:   #1c1522;
+  --accent:     #d60270;
+  --accent-rgb: 214, 2, 112;
+  --accent-dim: rgba(214, 2, 112, 0.12);
+  --text-main:  #f8f1ff;
+  --text-muted: #bca7cb;
+  --border-color: #362447;
+  --theme-font: 'Gill Sans', sans-serif;
+  --theme-weight: 800;
+  --theme-letter: 0.12em;
+}
+
+[data-theme="nonbinary"] {
+  --bg-color:   #130f18;
+  --bg-panel:   #1d1724;
+  --accent:     #8f49d6;
+  --accent-rgb: 143, 73, 214;
+  --accent-dim: rgba(143, 73, 214, 0.12);
+  --text-main:  #fffbed;
+  --text-muted: #ccbfa2;
+  --border-color: #4c3d5c;
+  --theme-font: 'Arial Black', sans-serif;
+  --theme-weight: 800;
+  --theme-letter: 0.14em;
+}
+
+[data-theme="pan"] {
+  --bg-color:   #180f16;
+  --bg-panel:   #241720;
+  --accent:     #ff218c;
+  --accent-rgb: 255, 33, 140;
+  --accent-dim: rgba(255, 33, 140, 0.12);
+  --text-main:  #fff4fa;
+  --text-muted: #d8a7bf;
+  --border-color: #4b2942;
+  --theme-radius-mult: 2;
+}
+
+[data-theme="asexual"] {
+  --bg-color:   #111112;
+  --bg-panel:   #1a1a1d;
+  --accent:     #9b5de5;
+  --accent-rgb: 155, 93, 229;
+  --accent-dim: rgba(155, 93, 229, 0.1);
+  --text-main:  #f5f3f8;
+  --text-muted: #b2a8bb;
+  --border-color: #343139;
+  --theme-font: var(--font-mono);
+  --theme-letter: 0.1em;
+  --theme-radius-mult: 0.5;
+}
+
+[data-theme="genderfluid"] {
+  --bg-color:   #11131b;
+  --bg-panel:   #191c28;
+  --accent:     #ff6ad5;
+  --accent-rgb: 255, 106, 213;
+  --accent-dim: rgba(255, 106, 213, 0.12);
+  --text-main:  #f4f7ff;
+  --text-muted: #b7bfd7;
+  --border-color: #303751;
+  --theme-radius-mult: 1.5;
+}
+
+[data-theme="intersex"] {
+  --bg-color:   #1a1608;
+  --bg-panel:   #251f0d;
+  --accent:     #ffd800;
+  --accent-rgb: 255, 216, 0;
+  --accent-dim: rgba(255, 216, 0, 0.12);
+  --text-main:  #fff8d9;
+  --text-muted: #d2c27b;
+  --border-color: #57471a;
+  --theme-radius-mult: 2.5;
+  --theme-letter: 0.12em;
+  --theme-weight: 700;
+}
+
+/* ── Aesthetic Themes ── */
+
+[data-theme="yami_kawaii"] {
+  --bg-color:   #120d14;
+  --bg-panel:   #1c141f;
+  --accent:     #ff9cd2;
+  --accent-rgb: 255, 156, 210;
+  --accent-dim: rgba(255, 156, 210, 0.14);
+  --text-main:  #fff2f8;
+  --text-muted: #d5abc1;
+  --border-color: #4a3144;
+  --theme-radius-mult: 3;
+}
+
+[data-theme="pastel_goth"] {
+  --bg-color:   #0f0d14;
+  --bg-panel:   #171320;
+  --accent:     #c8b3ff;
+  --accent-rgb: 200, 179, 255;
+  --accent-dim: rgba(200, 179, 255, 0.12);
+  --text-main:  #eef6f2;
+  --text-muted: #aab8b3;
+  --border-color: #322b40;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 2;
+}
+
+[data-theme="deep_sea"] {
+  --bg-color:   #06111d;
+  --bg-panel:   #0c1a2a;
+  --accent:     #49d6ff;
+  --accent-rgb: 73, 214, 255;
+  --accent-dim: rgba(73, 214, 255, 0.1);
+  --text-main:  #e5f8ff;
+  --text-muted: #86adc0;
+  --border-color: #173247;
+  --theme-radius-mult: 2;
+  --theme-shadow-mult: 1.5;
+}
+
+[data-theme="goat"] {
+  --bg-color:   #191517;
+  --bg-panel:   #221d22;
+  --accent:     #bfa6e8;
+  --accent-rgb: 191, 166, 232;
+  --accent-dim: rgba(191, 166, 232, 0.1);
+  --text-main:  #f4ede5;
+  --text-muted: #beaead;
+  --border-color: #4b4045;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 1.5;
+}
+
+[data-theme="moth"] {
+  --bg-color:   #17131a;
+  --bg-panel:   #211b24;
+  --accent:     #c7afd6;
+  --accent-rgb: 199, 175, 214;
+  --accent-dim: rgba(199, 175, 214, 0.12);
+  --text-main:  #f7f0e4;
+  --text-muted: #c0b3a7;
+  --border-color: #4a404c;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 2;
+}
+
+[data-theme="bunny"] {
+  --bg-color:   #fdf7fb;
+  --bg-panel:   #fffdfd;
+  --accent:     #ffb5d6;
+  --accent-rgb: 255, 181, 214;
+  --accent-dim: rgba(255, 181, 214, 0.2);
+  --text-main:  #443642;
+  --text-muted: #91758a;
+  --border-color: #f0d7e4;
+  --theme-radius-mult: 3.5;
+  --theme-shadow-mult: 0.7;
+}
+
+[data-theme="sea_bunny"] {
+  --bg-color:   #0b1f32;
+  --bg-panel:   #11304a;
+  --accent:     #ff8c42;
+  --accent-rgb: 255, 140, 66;
+  --accent-dim: rgba(255, 140, 66, 0.12);
+  --text-main:  #eff9ff;
+  --text-muted: #9ec1d9;
+  --border-color: #23506c;
+  --theme-radius-mult: 3;
+}
+
+/* ── Vibes & Dynamics ── */
+
+[data-theme="dickgirl-dom"] {
+  --bg-color:   #0f0a0d;
+  --bg-panel:   #1a1218;
+  --accent:     #e62e8a;
+  --accent-rgb: 230, 46, 138;
+  --accent-dim: rgba(230, 46, 138, 0.1);
+  --text-main:  #fff1f7;
+  --text-muted: #c49bb0;
+  --border-color: #3d2035;
+  --theme-radius-mult: 0;        /* square — no rounding */
+  --theme-font: 'Arial Black', 'Impact', sans-serif;
+  --theme-weight: 900;
+  --theme-letter: 0.14em;
+  --theme-uppercase: uppercase;
+  --theme-shadow-mult: 1.2;
+}
+
+[data-theme="dickgirl-mommy"] {
+  --bg-color:   #1a0f18;
+  --bg-panel:   #261520;
+  --accent:     #ff85c0;
+  --accent-rgb: 255, 133, 192;
+  --accent-dim: rgba(255, 133, 192, 0.12);
+  --text-main:  #fff4fa;
+  --text-muted: #d8a8c0;
+  --border-color: #4d2a3a;
+  --theme-font: var(--font-serif);
+  --theme-weight: 600;
+  --theme-letter: 0.04em;
+  --theme-radius-mult: 2.5;
+}
+
+[data-theme="dickgirl"] {
+  --bg-color:   #170d14;
+  --bg-panel:   #21131c;
+  --accent:     #e62e8a;
+  --accent-rgb: 230, 46, 138;
+  --accent-dim: rgba(230, 46, 138, 0.12);
+  --text-main:  #fff1f7;
+  --text-muted: #d3a3bb;
+  --border-color: #48203a;
+  --theme-radius-mult: 2;
+}
+
+[data-theme="femboy"] {
+  --bg-color:   #14171a;
+  --bg-panel:   #1b1e22;
+  --accent:     #f5a9b8;
+  --accent-rgb: 245, 169, 184;
+  --accent-dim: rgba(245, 169, 184, 0.12);
+  --text-main:  #fcf8fb;
+  --text-muted: #b9b7c8;
+  --border-color: #353a44;
+  --theme-radius-mult: 2.5;
+  --theme-letter: 0.01em;
+}
+
+[data-theme="dominant"] {
+  --bg-color:   #0b0a0a;
+  --bg-panel:   #141111;
+  --accent:     #cc0000;
+  --accent-rgb: 204, 0, 0;
+  --accent-dim: rgba(204, 0, 0, 0.12);
+  --text-main:  #f5efef;
+  --text-muted: #b09999;
+  --border-color: #3b1d1d;
+  --theme-radius-mult: 0;
+  --theme-font: 'Trebuchet MS', 'Arial Narrow', sans-serif;
+  --theme-weight: 700;
+  --theme-letter: 0.05em;
+  --theme-uppercase: none;
+}
+
+[data-theme="submissive"] {
+  --bg-color:   #121216;
+  --bg-panel:   #1a1a20;
+  --accent:     #9d8ec7;
+  --accent-rgb: 157, 142, 199;
+  --accent-dim: rgba(157, 142, 199, 0.1);
+  --text-main:  #f4f1fb;
+  --text-muted: #b4aec8;
+  --border-color: #363247;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 2;
+}
+
+[data-theme="musk"] {
+  --bg-color:   #12130b;
+  --bg-panel:   #1b1d12;
+  --accent:     #b58d3d;
+  --accent-rgb: 181, 141, 61;
+  --accent-dim: rgba(181, 141, 61, 0.12);
+  --text-main:  #f5f1df;
+  --text-muted: #b7a983;
+  --border-color: #473b23;
+  --theme-radius-mult: 1;
+  --theme-shadow-mult: 1.1;
+}
+
+[data-theme="pup"] {
+  --bg-color:   #0a0c12;
+  --bg-panel:   #12151c;
+  --accent:     #2b5cff;
+  --accent-rgb: 43, 92, 255;
+  --accent-dim: rgba(43, 92, 255, 0.12);
+  --text-main:  #eef2ff;
+  --text-muted: #9ba8c8;
+  --border-color: #263352;
+  --theme-radius-mult: 1.5;
+  --theme-letter: 0.1em;
+  --theme-weight: 700;
+}
+
+/* ── Fetish Material ── */
+
+[data-theme="rubber"] {
+  --bg-color:   #060606;
+  --bg-panel:   #111111;
+  --accent:     #f1f1f1;
+  --accent-rgb: 241, 241, 241;
+  --accent-dim: rgba(241, 241, 241, 0.08);
+  --text-main:  #f5f5f5;
+  --text-muted: #9f9f9f;
+  --border-color: #2e2e2e;
+  --theme-radius-mult: 0;
+  --theme-font: 'Arial Narrow', 'Trebuchet MS', sans-serif;
+  --theme-weight: 650;
+  --theme-letter: 0.04em;
+  --theme-uppercase: none;
+  --theme-shadow-mult: 1.3;
+}
+
+[data-theme="rope"] {
+  --bg-color:   #1a1510;
+  --bg-panel:   #241d15;
+  --accent:     #c8a56e;
+  --accent-rgb: 200, 165, 110;
+  --accent-dim: rgba(200, 165, 110, 0.12);
+  --text-main:  #f4ecde;
+  --text-muted: #bda887;
+  --border-color: #4c3b26;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 1;
+}
+
+[data-theme="inflation"] {
+  --bg-color:   #201a2a;
+  --bg-panel:   #2b2238;
+  --accent:     #ffb7df;
+  --accent-rgb: 255, 183, 223;
+  --accent-dim: rgba(255, 183, 223, 0.12);
+  --text-main:  #fff7fd;
+  --text-muted: #d4bfd7;
+  --border-color: #5d4b73;
+  --theme-radius-mult: 2.5;
+}
+
+[data-theme="vore"] {
+  --bg-color:   #0d170f;
+  --bg-panel:   #152218;
+  --accent:     #6bb86f;
+  --accent-rgb: 107, 184, 111;
+  --accent-dim: rgba(107, 184, 111, 0.1);
+  --text-main:  #edf7ea;
+  --text-muted: #9db099;
+  --border-color: #29422d;
+  --theme-radius-mult: 1.5;
+}
+
+[data-theme="werewolf"] {
+  --bg-color:   #16120f;
+  --bg-panel:   #221c18;
+  --accent:     #c6c8d2;
+  --accent-rgb: 198, 200, 210;
+  --accent-dim: rgba(198, 200, 210, 0.1);
+  --text-main:  #f2eee8;
+  --text-muted: #b3a18e;
+  --border-color: #4d3b2b;
+  --theme-font: var(--font-serif);
+  --theme-radius-mult: 1;
+  --theme-shadow-mult: 1.2;
+}
+
+[data-theme="hypno"] {
+  --bg-color:   #0d1024;
+  --bg-panel:   #141938;
+  --accent:     #8a7dff;
+  --accent-rgb: 138, 125, 255;
+  --accent-dim: rgba(138, 125, 255, 0.12);
+  --text-main:  #f3f2ff;
+  --text-muted: #aaa8d4;
+  --border-color: #2b2f5d;
+  --theme-radius-mult: 1.5;
+  --theme-letter: 0.16em;
+}
+
+[data-theme="daddy"] {
+  --bg-color:   #1a130d;
+  --bg-panel:   #271d15;
+  --accent:     #d59b45;
+  --accent-rgb: 213, 155, 69;
+  --accent-dim: rgba(213, 155, 69, 0.12);
+  --text-main:  #f8efe1;
+  --text-muted: #c5ab84;
+  --border-color: #6a4d2b;
+  --theme-font: var(--font-serif);
+  --theme-weight: 800;
+  --theme-radius-mult: 2;
+}
+
+[data-theme="hexcorp"] {
+  --bg-color:   #070707;
+  --bg-panel:   #111111;
+  --accent:     #c7a14d;
+  --accent-rgb: 199, 161, 77;
+  --accent-dim: rgba(199, 161, 77, 0.1);
+  --text-main:  #f4ecd9;
+  --text-muted: #9f9277;
+  --border-color: #3a3324;
+  --theme-radius-mult: 0;
+  --theme-font: 'Helvetica Neue', sans-serif;
+  --theme-weight: 800;
+  --theme-letter: 0.16em;
+}
+
+[data-theme="dronification"] {
+  --bg-color:   #06040f;
+  --bg-panel:   #0e0a1e;
+  --accent:     #b44dff;
+  --accent-rgb: 180, 77, 255;
+  --accent-dim: rgba(180, 77, 255, 0.12);
+  --text-main:  #f0e8ff;
+  --text-muted: #9978cc;
+  --border-color: #2e1a52;
+  --theme-radius-mult: 0;
+  --theme-font: 'Helvetica Neue', sans-serif;
+  --theme-weight: 900;
+  --theme-letter: 0.22em;
+  --theme-uppercase: uppercase;
+}
+
+/* ── Extreme (opt-in) ── */
+
+[data-theme="guro"] {
+  --bg-color:   #efebe6;
+  --bg-panel:   #f8f4ef;
+  --accent:     #8d0f22;
+  --accent-rgb: 141, 15, 34;
+  --accent-dim: rgba(141, 15, 34, 0.08);
+  --text-main:  #241819;
+  --text-muted: #7c6768;
+  --border-color: #cfbeb8;
+  --theme-radius-mult: 0;
+  --theme-font: 'Helvetica Neue', sans-serif;
+  --theme-weight: 700;
+  --theme-letter: 0.14em;
+  --theme-uppercase: uppercase;
+}
+
+[data-theme="living_toilet"] {
+  --bg-color:   #1a140e;
+  --bg-panel:   #251c13;
+  --accent:     #b49343;
+  --accent-rgb: 180, 147, 67;
+  --accent-dim: rgba(180, 147, 67, 0.1);
+  --text-main:  #efe0c2;
+  --text-muted: #a59064;
+  --border-color: #4d3c21;
+  --theme-radius-mult: 1;
+}
+
+[data-theme="parasites"] {
+  --bg-color:   #170911;
+  --bg-panel:   #220e18;
+  --accent:     #ff5ca8;
+  --accent-rgb: 255, 92, 168;
+  --accent-dim: rgba(255, 92, 168, 0.12);
+  --text-main:  #fff0f7;
+  --text-muted: #c89caf;
+  --border-color: #4d2236;
+  --theme-radius-mult: 1;
+}

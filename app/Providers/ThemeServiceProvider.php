@@ -57,6 +57,18 @@ class ThemeServiceProvider extends ServiceProvider
             return "<?php echo app(\\App\\Services\\ThemeManifest::class)->card('{$key}'); ?>";
         });
 
+        // Register Blade directive: @identityAware('greeting')
+        // Usage: @identityAware('greeting') — resolves identity_aware.greeting_{identity}
+        Blade::directive('identityAware', function (string $expression) {
+            $parts = explode(',', $expression, 2);
+            $keyPrefix = trim($parts[0], "'\"");
+
+            $default = isset($parts[1]) ? trim($parts[1], " '\"") : null;
+
+            return "<?php echo app(\\App\\Services\\ThemeManifest::class)->identityAware('{$keyPrefix}', null, " .
+                   ($default ? "'{$default}'" : 'null') . "); ?>";
+        });
+
         // Share theme data with all views
         view()->composer('*', function ($view) {
             $theme = app(ThemeManifest::class);
@@ -65,6 +77,8 @@ class ThemeServiceProvider extends ServiceProvider
                 'theme' => $theme,
                 'themeManifest' => $theme->all(),
                 'themeName' => $theme->getTheme(),
+                'viewerIdentity' => $theme->viewerIdentity(),
+                'identityLabel' => $theme->getIdentityLabel(),
             ]);
         });
     }

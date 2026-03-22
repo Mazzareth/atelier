@@ -14,10 +14,10 @@
     <div class="workspace-shell">
         <aside class="workspace-sidebar">
             <div class="workspace-sidebar-top">
-                <div>
-                    <div class="pill mono" style="margin-bottom:0.9rem;"><div class="dot"></div>● workspace</div>
-                    <h1 class="serif" style="font-size:2.1rem; margin-bottom:0.35rem;">Artist Workspace</h1>
-                    <p class="mono" style="color:var(--text-muted); font-size:0.72rem; line-height:1.6;">Every commission on the left, active board on the right. Much saner.</p>
+                <div class="workspace-sidebar-intro">
+                    <div class="workspace-eyebrow mono">Workspace</div>
+                    <h1 class="workspace-page-title">Artist Workspace</h1>
+                    <p class="workspace-page-copy">Every commission on the left, active board on the right. The structure stays stable so the content can breathe.</p>
                 </div>
 
                 <details class="workspace-manual-box">
@@ -34,7 +34,7 @@
                             @endforeach
                         </select>
                         <textarea name="details" placeholder="What’s the piece? notes, delivery details, refs, etc." required></textarea>
-                        <button class="btn btn-primary" style="justify-content:center;">Create</button>
+                        <button class="btn btn-primary btn-full" type="submit">Create</button>
                     </form>
                 </details>
             </div>
@@ -92,14 +92,14 @@
                                     <button id="workspace-center-btn" class="btn btn-ghost" type="button">Return to center</button>
                                     <button id="add-note-btn" class="btn btn-ghost" type="button">Add note</button>
                                     <button id="add-group-btn" class="btn btn-ghost" type="button">Add group</button>
-                                    <label class="btn btn-primary" style="cursor:pointer;">
+                                    <label class="btn btn-primary workspace-upload-trigger">
                                         Upload refs
                                         <input id="workspace-upload-input" type="file" accept="image/*" multiple hidden>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div id="workspace-context-menu" class="workspace-context-menu" style="display:none;">
+                        <div id="workspace-context-menu" class="workspace-context-menu is-hidden">
                             <button type="button" data-action="import-image">Import image</button>
                             <button type="button" data-action="new-text">New text</button>
                             <button type="button" data-action="new-group">New group</button>
@@ -113,7 +113,7 @@
                                     <div class="workspace-item workspace-item--{{ $item->type }}" data-item-id="{{ $item->id }}" data-type="{{ $item->type }}" data-x="{{ $item->x }}" data-y="{{ $item->y }}" style="width:{{ $item->width }}px; height:{{ $item->height }}px; z-index:{{ $item->z_index }}; {{ $item->type === 'group' && $item->background ? 'background:' . $item->background . ';' : '' }}">
                                     <div class="workspace-item-header">
                                         <div class="mono workspace-item-kicker">{{ strtoupper($item->type) }}</div>
-                                        <div style="display:flex; gap:0.35rem; align-items:center;">
+                                        <div class="workspace-item-controls">
                                             <button type="button" class="workspace-item-delete">✕</button>
                                         </div>
                                     </div>
@@ -144,74 +144,6 @@
 @endsection
 
 @push('scripts')
-<style>
-body:has(.workspace-page) { overflow: hidden; }
-.workspace-page { height: calc(100vh - 70px); padding: 1rem; overflow: hidden; }
-.workspace-shell { display:grid; grid-template-columns: 320px minmax(0,1fr); gap:1rem; height: 100%; min-height: 0; }
-.workspace-sidebar, .workspace-canvas-panel, .workspace-no-active { background: var(--bg-panel); border:1px solid var(--border-color); border-radius:20px; box-shadow: 0 16px 40px rgba(0,0,0,0.16); }
-.workspace-sidebar { display:flex; flex-direction:column; overflow:hidden; }
-.workspace-sidebar-top { padding:1rem; border-bottom:1px solid var(--border-color); display:flex; flex-direction:column; gap:1rem; }
-.workspace-thread-list { padding:0.75rem; display:flex; flex-direction:column; gap:0.65rem; overflow:auto; }
-.workspace-thread-item { text-decoration:none; color:inherit; border:1px solid var(--border-color); border-radius:16px; padding:0.85rem; background: color-mix(in srgb, var(--bg-color) 34%, var(--bg-panel)); }
-.workspace-thread-item.is-active { border-color: var(--accent-color); background: var(--accent-dim); }
-.workspace-thread-meta { font-size:0.62rem; color:var(--accent-color); margin-bottom:0.35rem; }
-.workspace-thread-title { font-size:0.98rem; margin-bottom:0.25rem; }
-.workspace-thread-client { font-size:0.68rem; color:var(--text-muted); }
-.workspace-manual-box summary { cursor:pointer; font-size:0.74rem; color:var(--accent-color); }
-.workspace-manual-form { display:flex; flex-direction:column; gap:0.55rem; margin-top:0.85rem; }
-.workspace-manual-form input, .workspace-manual-form select, .workspace-manual-form textarea { width:100%; background:var(--bg-color); color:var(--text-main); border:1px solid var(--border-color); border-radius:12px; padding:0.75rem; }
-.workspace-manual-form textarea { min-height:120px; }
-.workspace-main { display:flex; flex-direction:column; gap:1rem; min-width:0; min-height:0; }
-.workspace-canvas-panel, .workspace-no-active { padding:1rem; }
-.workspace-canvas-panel { display:flex; flex:1; min-height:0; }
-.workspace-current-title { font-size:1.2rem; font-family: Georgia, serif; font-style: italic; margin-bottom:0.2rem; line-height:1.2; }
-.workspace-stagebar { display:flex; gap:0.5rem; flex-wrap:wrap; }
-.workspace-stage-pill { border:1px solid var(--border-color); background: var(--bg-color); color:var(--text-muted); padding:0.5rem 0.75rem; border-radius:999px; cursor:pointer; font-size:0.72rem; }
-.workspace-stage-pill.is-active { background: var(--accent-color); color:#000; border-color: var(--accent-color); font-weight:700; }
-.workspace-canvas-wrap { position:relative; flex:1; min-height:0; height:100%; border-radius:18px; overflow:hidden; border:1px dashed color-mix(in srgb, var(--accent-color) 32%, var(--border-color)); background: var(--bg-color); cursor:grab; }
-.workspace-canvas-wrap.is-panning { cursor:grabbing; user-select:none; }
-.workspace-canvas-wrap.is-dragover { outline:2px dashed var(--accent-color); outline-offset:8px; }
-.workspace-grid { position:absolute; inset:0; z-index:0; pointer-events:none; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size:24px 24px; background-position:0 0, 0 0; }
-.workspace-canvas-hud { position:sticky; top:0.75rem; left:0.75rem; z-index:15; display:flex; justify-content:space-between; gap:0.75rem; align-items:flex-start; padding:0.75rem; pointer-events:none; min-width:max-content; }
-.workspace-commission-card, .workspace-toolbar-card { pointer-events:auto; border:1px solid color-mix(in srgb, var(--border-color) 84%, transparent); background: color-mix(in srgb, var(--bg-panel) 88%, transparent); backdrop-filter: blur(10px); border-radius:16px; box-shadow:0 14px 30px rgba(0,0,0,0.22); }
-.workspace-commission-card { max-width:min(520px, calc(100vw - 460px)); padding:0.8rem 0.9rem; }
-.workspace-commission-kicker { font-size:0.62rem; color:var(--accent-color); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.35rem; }
-.workspace-commission-meta, .workspace-canvas-help { font-size:0.68rem; color:var(--text-muted); line-height:1.5; }
-.workspace-toolbar-card { margin-left:auto; display:flex; flex-direction:column; gap:0.65rem; padding:0.8rem; width:min(260px, 100%); }
-.workspace-toolbar-actions { display:flex; flex-direction:column; gap:0.5rem; align-items:stretch; }
-.workspace-toolbar-actions .btn { width:100%; justify-content:center; }
-.workspace-toolbar-actions label.btn { display:flex; width:100%; justify-content:center; }
-.workspace-world { position:absolute; inset:0; z-index:1; transform-origin: 0 0; transform:translate3d(0, 0, 0) scale(1); will-change:transform; }
-.workspace-canvas { position:absolute; inset:0; z-index:2; overflow:visible; }
-.workspace-connections { position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; overflow:visible; }
-.workspace-connection-line { stroke: var(--accent-color); stroke-width: 2.5; fill: none; stroke-dasharray: 6 8; opacity: 0.8; pointer-events: stroke; cursor: pointer; }
-.workspace-connection-line:hover { stroke: #ff7b7b; opacity: 1; }
-.workspace-item { position:absolute; display:flex; flex-direction:column; gap:0.55rem; padding:0.75rem; background: color-mix(in srgb, var(--bg-panel) 95%, transparent); border:1px solid var(--border-color); border-radius:16px; box-shadow: 0 12px 28px rgba(0,0,0,0.26); overflow:hidden; }
-.workspace-item--group { border-style:dashed; }
-.workspace-item-header { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; cursor:move; }
-.workspace-item-kicker { font-size:0.62rem; color:var(--accent-color); }
-.workspace-item-delete { background:transparent; border:1px solid var(--border-color); color:var(--text-main); border-radius:10px; padding:0.28rem 0.55rem; cursor:pointer; }
-.workspace-item-delete { color:#ff8181; border-color:#a94444; }
-.workspace-image { width:100%; height:100%; object-fit:contain; flex:1; min-height:0; border-radius:12px; background:#0a0a0a; }
-.workspace-title-input, .workspace-note-input { width:100%; background:var(--bg-color); color:var(--text-main); border:1px solid var(--border-color); border-radius:12px; padding:0.65rem; }
-.workspace-note-input { flex:1; min-height:120px; resize:none; }
-.workspace-note-preview, .workspace-group-body { flex:1; min-height:0; overflow:auto; padding:0.75rem; border-radius:12px; background: var(--bg-color); color:var(--text-main); line-height:1.6; }
-.workspace-group-body { font-size:0.72rem; color:var(--text-muted); }
-.workspace-resize-handle { position:absolute; right:8px; bottom:8px; width:14px; height:14px; border-right:2px solid var(--accent-color); border-bottom:2px solid var(--accent-color); cursor:nwse-resize; }
-.workspace-context-menu { position:absolute; z-index:20; min-width:180px; background:var(--bg-panel); border:1px solid var(--border-color); border-radius:14px; box-shadow:0 18px 40px rgba(0,0,0,0.28); padding:0.35rem; }
-.workspace-context-menu button { width:100%; text-align:left; background:transparent; color:var(--text-main); border:none; border-radius:10px; padding:0.7rem 0.8rem; cursor:pointer; }
-.workspace-context-menu button:hover { background:var(--accent-dim); color:var(--accent-color); }
-.workspace-empty, .workspace-no-active { color:var(--text-muted); font-size:0.8rem; line-height:1.6; }
-@media (max-width: 980px) {
-    .workspace-page { padding:0.75rem; }
-    .workspace-shell { grid-template-columns: 1fr; }
-    .workspace-canvas-panel { min-height: 72vh; }
-    .workspace-canvas-hud { position:absolute; inset:0.75rem 0.75rem auto 0.75rem; flex-direction:column; min-width:0; }
-    .workspace-commission-card, .workspace-toolbar-card { max-width:none; margin-left:0; }
-    .workspace-toolbar-actions { align-items:stretch; }
-}
-</style>
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('workspace-canvas');
@@ -260,12 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMarkdown(text='') {
         return String(text)
             .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/^# (.+)/gm, '<h1 class="serif" style="font-size:1.6rem; color:var(--accent-color); margin-bottom:0.65rem;">$1</h1>')
-            .replace(/^## (.+)/gm, '<h2 class="serif" style="font-size:1.2rem; color:var(--accent-color); margin-bottom:0.55rem;">$1</h2>')
+            .replace(/^# (.+)/gm, '<h1 class="workspace-markdown-h1">$1</h1>')
+            .replace(/^## (.+)/gm, '<h2 class="workspace-markdown-h2">$1</h2>')
             .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color:var(--accent-color);">$1</a>')
-            .replace(/^- (.+)/gm, '<li style="margin-left:1rem;">$1</li>')
+            .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" class="workspace-markdown-link">$1</a>')
+            .replace(/^- (.+)/gm, '<li class="workspace-markdown-li">$1</li>')
             .replace(/\n/g, '<br>');
     }
 
@@ -368,15 +300,19 @@ document.addEventListener('DOMContentLoaded', () => {
         setZoom(Number((zoom * factor).toFixed(3)));
     }
 
-    function hideMenu() { if (menu) menu.style.display = 'none'; }
+    function hideMenu() {
+        if (!menu) return;
+        menu.classList.add('is-hidden');
+        menu.classList.remove('is-node-target');
+    }
 
     function showMenu(viewportX, viewportY, targetItem = null) {
         if (!menu) return;
         menuTarget = targetItem;
         menu.style.left = `${viewportX}px`;
         menu.style.top = `${viewportY}px`;
-        menu.querySelectorAll('.node-only').forEach(btn => btn.style.display = targetItem ? 'block' : 'none');
-        menu.style.display = 'block';
+        menu.classList.toggle('is-node-target', Boolean(targetItem));
+        menu.classList.remove('is-hidden');
     }
 
     async function postJson(url, payload) {

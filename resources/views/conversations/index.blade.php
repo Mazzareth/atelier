@@ -145,6 +145,30 @@
                         </div>
                     </header>
 
+                    @if($isArtistView && $commissionRequest && $commissionRequest->status === \App\Models\CommissionRequest::STATUS_ACCEPTED)
+                        <section class="chat-progress-strip">
+                            <div class="chat-progress-strip-head">
+                                <div class="chat-progress-strip-kicker mono">Commission progress</div>
+                                <div class="chat-progress-strip-links">
+                                    <a href="{{ route('artist.workspace.show') }}" class="chat-inline-link mono">Workspace</a>
+                                    <a href="{{ url('/atelier/commissions') }}" class="chat-inline-link mono">Tracker board</a>
+                                </div>
+                            </div>
+
+                            <div class="chat-progress-pills" role="group" aria-label="Commission progress stage">
+                                @foreach($trackerLabels as $stage => $label)
+                                    <form method="POST" action="{{ route('artist.requests.tracker-stage', $commissionRequest) }}">
+                                        @csrf
+                                        <input type="hidden" name="tracker_stage" value="{{ $stage }}">
+                                        <button class="chat-progress-pill {{ $commissionRequest->tracker_stage === $stage ? 'is-active' : '' }}" type="submit" style="--stage-color: {{ $trackerColors[$stage] }};">
+                                            {{ $label }}
+                                        </button>
+                                    </form>
+                                @endforeach
+                            </div>
+                        </section>
+                    @endif
+
                     @if($commissionRequest && !empty($commissionRequest->reference_images))
                         <div class="chat-reference-strip">
                             <div class="mono chat-reference-label">Commission references</div>
@@ -189,7 +213,15 @@
                             <div class="chat-empty-thread">
                                 <div class="chat-empty-thread-illustration">✦</div>
                                 <div class="mono chat-empty-thread-label">No messages yet</div>
-                                <div class="chat-empty-thread-text">Start the thread with a message, send an image, or use the artist tools on the right to move the commission forward.</div>
+                                <div class="chat-empty-thread-text">
+                                    @if($isArtistView && $commissionRequest && $commissionRequest->status === \App\Models\CommissionRequest::STATUS_PENDING)
+                                        Start with a short welcome note or make the request decision from the artist actions panel.
+                                    @elseif($isArtistView && $commissionRequest && $commissionRequest->status === \App\Models\CommissionRequest::STATUS_ACCEPTED)
+                                        Send the first update, confirm the next step, or move the commission into its current tracker stage.
+                                    @else
+                                        Start the thread with a message, share reference images, or reply to get the commission moving.
+                                    @endif
+                                </div>
                             </div>
                         @endforelse
                     </div>
@@ -198,7 +230,7 @@
                         @csrf
                         <div class="chat-composer-shell">
                             <div class="chat-composer-frame">
-                                <textarea name="message" maxlength="4000" placeholder="Message {{ $otherParty->name ?? 'them' }}..." class="chat-composer-input">{{ old('message') }}</textarea>
+                                <textarea name="message" maxlength="4000" placeholder="Write a message to {{ $otherParty->name ?? 'them' }}. You can use Markdown, attach images, and press Ctrl+Enter to send." class="chat-composer-input">{{ old('message') }}</textarea>
                                 <div class="chat-composer-toolbar">
                                     <div class="chat-composer-hint-wrap">
                                         <label class="chat-attach-button" title="Attach images">
@@ -206,7 +238,7 @@
                                             <span>＋</span>
                                         </label>
                                         <div class="chat-attachment-preview-strip" data-chat-attachment-preview></div>
-                                        <div class="mono chat-composer-hint">Markdown works here. Text, images, or both. Ctrl+Enter sends.</div>
+                                        <div class="chat-composer-hint">Attach images if you need them.</div>
                                     </div>
                                     <button class="btn btn-primary chat-send-button" type="submit">Send</button>
                                 </div>
@@ -229,47 +261,43 @@
         @if($activeConversation)
             <aside class="chat-actions-rail">
                 <div class="chat-actions-scroll">
-                    <section class="chat-action-card">
+                    <section class="chat-action-card chat-action-card--overview">
                         <div class="chat-action-card-label mono">Overview</div>
                         <div class="chat-action-card-title">Thread details</div>
+
+                        <div class="chat-presence-card">
+                            <div class="chat-presence-main">
+                                <div class="chat-presence-name">{{ $otherParty->name ?? 'Unknown User' }}</div>
+                                <div class="mono chat-presence-handle">/{{ $otherParty->username ?? 'user' }}</div>
+                            </div>
+                            @if($activeConversation->kind === 'commission' || $commissionRequest)
+                                <span class="chat-kind-badge mono">Commission</span>
+                            @endif
+                        </div>
+
                         <div class="chat-detail-stack">
-                            <div class="chat-detail-item">
+                            <div class="chat-detail-item chat-detail-item--pill-row">
                                 <span class="chat-detail-label mono">Conversation</span>
                                 <span class="chat-detail-value">{{ $activeConversation->title ?: ('Chat with ' . ($otherParty->name ?? 'User')) }}</span>
                             </div>
-                            <div class="chat-detail-item">
-                                <span class="chat-detail-label mono">With</span>
-                                <span class="chat-detail-value">{{ $otherParty->name ?? 'Unknown User' }} /{{ $otherParty->username ?? 'user' }}</span>
-                            </div>
                             @if($commissionRequest)
-                                <div class="chat-detail-item">
+                                <div class="chat-detail-item chat-detail-item--pill-row">
                                     <span class="chat-detail-label mono">Status</span>
-                                    <span class="chat-pill mono" style="border-color: {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }}; color: {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }}; background: color-mix(in srgb, {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }} 12%, transparent); width: fit-content;">{{ $statusLabels[$commissionRequest->status] ?? ucfirst($commissionRequest->status) }}</span>
-                                </div>
-                                @if($commissionRequest->tracker_stage)
-                                    <div class="chat-detail-item">
-                                        <span class="chat-detail-label mono">Stage</span>
-                                        <span class="chat-pill mono" style="border-color: {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }}; color: {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }}; background: color-mix(in srgb, {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }} 12%, transparent); width: fit-content;">{{ $trackerLabels[$commissionRequest->tracker_stage] ?? ucfirst($commissionRequest->tracker_stage) }}</span>
+                                    <div class="chat-detail-pill-row">
+                                        <span class="chat-pill mono" style="border-color: {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }}; color: {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }}; background: color-mix(in srgb, {{ $statusColors[$commissionRequest->status] ?? 'var(--accent-color)' }} 12%, transparent); width: fit-content;">{{ $statusLabels[$commissionRequest->status] ?? ucfirst($commissionRequest->status) }}</span>
+                                        @if($commissionRequest->tracker_stage)
+                                            <span class="chat-pill mono" style="border-color: {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }}; color: {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }}; background: color-mix(in srgb, {{ $trackerColors[$commissionRequest->tracker_stage] ?? 'var(--accent-color)' }} 12%, transparent); width: fit-content;">{{ $trackerLabels[$commissionRequest->tracker_stage] ?? ucfirst($commissionRequest->tracker_stage) }}</span>
+                                        @endif
                                     </div>
-                                @endif
+                                </div>
                             @endif
                         </div>
-                    </section>
-
-                    <section class="chat-action-card">
-                        <div class="chat-action-card-label mono">Danger zone</div>
-                        <div class="chat-action-card-title">Delete thread</div>
-                        <div class="chat-detail-value" style="color: var(--text-muted);">Either participant can delete this entire chat. If this is a commission thread, the related request, messages, references, and workspace items will be removed too.</div>
-                        <form method="POST" action="{{ route('conversations.destroy', $activeConversation) }}" onsubmit="return confirm('Delete this entire chat? This cannot be undone.');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-ghost chat-action-btn chat-action-btn--danger">Delete Chat</button>
-                        </form>
                     </section>
 
                     @if($activityMessages->isNotEmpty())
                         <section class="chat-action-card">
                             <div class="chat-action-card-label mono">Activity</div>
+                            <div class="chat-action-card-title">Recent thread updates</div>
                             <div class="chat-activity-feed">
                                 @foreach($activityMessages as $activity)
                                     <article class="chat-activity-item">
@@ -286,35 +314,85 @@
 
                     @if($isArtistView && $commissionRequest)
                         <section class="chat-action-card">
-                            <div class="chat-action-card-label mono">Artist actions</div>
-                            <div class="chat-action-grid chat-action-grid--stacked">
-                                <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-action-form">@csrf<input type="hidden" name="action" value="accepted"><input name="reason" placeholder="Optional acceptance note" class="chat-mini-input"><button class="btn btn-primary chat-action-btn">Accept</button></form>
-                                <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-action-form">@csrf<input type="hidden" name="action" value="declined"><input name="reason" placeholder="Optional decline reason" class="chat-mini-input"><button class="btn btn-ghost chat-action-btn chat-action-btn--danger">Decline</button></form>
-                                <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-action-form">@csrf<input type="hidden" name="action" value="needs_info"><input name="reason" placeholder="What info do you need?" class="chat-mini-input"><button class="btn btn-ghost chat-action-btn">Need info</button></form>
-                            </div>
+                            @if($commissionRequest->status === \App\Models\CommissionRequest::STATUS_PENDING)
+                                <div class="chat-action-card-label mono">Next step</div>
+                                <div class="chat-action-card-title">Decide what to do with this request</div>
+                                <div class="chat-action-summary chat-action-summary--tight">
+                                    <div class="chat-action-summary-copy">Pick one path: accept it, ask for missing details, or decline it. This panel should help you decide, not make you think about interface rules.</div>
+                                </div>
+
+                                <div class="chat-decision-stack">
+                                    <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-decision-card chat-decision-card--primary">
+                                        @csrf
+                                        <input type="hidden" name="action" value="accepted">
+                                        <div class="chat-decision-head">
+                                            <div>
+                                                <div class="chat-decision-title">Accept request</div>
+                                                <div class="chat-decision-copy">Tell them they’re in and give a quick next step.</div>
+                                            </div>
+                                            <button class="btn btn-primary chat-decision-btn" type="submit">Accept</button>
+                                        </div>
+                                        <input id="accept-note" name="reason" placeholder="Welcome note, estimate, or next step..." class="chat-mini-input">
+                                    </form>
+
+                                    <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-decision-card">
+                                        @csrf
+                                        <input type="hidden" name="action" value="needs_info">
+                                        <div class="chat-decision-head">
+                                            <div>
+                                                <div class="chat-decision-title">Ask for more info</div>
+                                                <div class="chat-decision-copy">Use this when the brief is incomplete or unclear.</div>
+                                            </div>
+                                            <button class="btn btn-ghost chat-decision-btn" type="submit">Ask</button>
+                                        </div>
+                                        <input id="needs-info-note" name="reason" placeholder="What details are still missing?" class="chat-mini-input">
+                                    </form>
+
+                                    <form method="POST" action="{{ route('artist.requests.respond', $commissionRequest) }}" class="chat-decision-card chat-decision-card--danger">
+                                        @csrf
+                                        <input type="hidden" name="action" value="declined">
+                                        <div class="chat-decision-head">
+                                            <div>
+                                                <div class="chat-decision-title">Decline request</div>
+                                                <div class="chat-decision-copy">Use this if it’s not a fit, not feasible, or not something you want to take.</div>
+                                            </div>
+                                            <button class="btn btn-ghost chat-decision-btn chat-action-btn--danger" type="submit">Decline</button>
+                                        </div>
+                                        <input id="decline-note" name="reason" placeholder="Short polite reason..." class="chat-mini-input">
+                                    </form>
+                                </div>
+                            @elseif($commissionRequest->status === \App\Models\CommissionRequest::STATUS_ACCEPTED)
+                                <div class="chat-action-card-label mono">Accepted commission</div>
+                                <div class="chat-action-card-title">Manage thread</div>
+                            @elseif($commissionRequest->status === \App\Models\CommissionRequest::STATUS_DECLINED)
+                                <div class="chat-action-card-label mono">Declined request</div>
+                                <div class="chat-action-card-title">Nothing else needs doing here</div>
+                                <div class="chat-action-summary">
+                                    <div class="chat-action-summary-copy">This request is already closed out. Keep the thread if you want the record, or undo the decision if it needs another look.</div>
+                                </div>
+                            @endif
+
                             @if($commissionRequest->status !== \App\Models\CommissionRequest::STATUS_PENDING)
-                                <form method="POST" action="{{ route('artist.requests.undo', $commissionRequest) }}">
+                                <form method="POST" action="{{ route('artist.requests.undo', $commissionRequest) }}" class="chat-undo-form">
                                     @csrf
-                                    <button class="btn btn-ghost chat-action-btn">Undo decision</button>
+                                    <button class="chat-undo-link" type="submit">Undo decision</button>
                                 </form>
                             @endif
                         </section>
                     @endif
 
-                    @if($isArtistView && $commissionRequest && $commissionRequest->status === \App\Models\CommissionRequest::STATUS_ACCEPTED)
-                        <section class="chat-action-card">
-                            <div class="chat-action-card-label mono">Commission tracker</div>
-                            <div class="chat-tracker-grid chat-tracker-grid--rail">
-                                @foreach($trackerLabels as $stage => $label)
-                                    <form method="POST" action="{{ route('artist.requests.tracker-stage', $commissionRequest) }}">
-                                        @csrf
-                                        <input type="hidden" name="tracker_stage" value="{{ $stage }}">
-                                        <button class="btn {{ $commissionRequest->tracker_stage === $stage ? 'btn-primary' : 'btn-ghost' }} chat-action-btn" style="width:100%; justify-content:center; border-color: {{ $trackerColors[$stage] }}; color: {{ $commissionRequest->tracker_stage === $stage ? '#000' : $trackerColors[$stage] }}; {{ $commissionRequest->tracker_stage === $stage ? 'background:' . $trackerColors[$stage] . ';' : '' }}">{{ $label }}</button>
-                                    </form>
-                                @endforeach
-                            </div>
-                        </section>
-                    @endif
+                    <section class="chat-action-card chat-action-card--danger-zone">
+                        <div class="chat-action-card-label mono">Danger zone</div>
+                        <div class="chat-action-card-title">Delete thread</div>
+                        <div class="chat-action-summary chat-action-summary--danger">
+                            <div class="chat-action-summary-copy">Delete the full conversation and everything tied to it here. Commission threads will also remove related request data, messages, references, and workspace items.</div>
+                        </div>
+                        <form method="POST" action="{{ route('conversations.destroy', $activeConversation) }}" onsubmit="return confirm('Delete this entire chat? This cannot be undone.');">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-ghost chat-action-btn chat-action-btn--danger">Delete chat</button>
+                        </form>
+                    </section>
                 </div>
             </aside>
         @endif
@@ -344,7 +422,7 @@
     }
 
     .chat-app-shell.has-actions-rail {
-        grid-template-columns: 300px minmax(0, 1fr) 290px;
+        grid-template-columns: 280px minmax(0, 1fr) 340px;
     }
 
     .chat-sidebar,
@@ -551,12 +629,13 @@
 
     .chat-kind-badge,
     .chat-pill {
-        padding: 0.32rem 0.5rem;
+        padding: 0.24rem 0.42rem;
         border-radius: 999px;
-        border: 1px solid var(--border-color);
-        background: color-mix(in srgb, var(--bg-color) 30%, var(--bg-panel));
-        color: var(--accent-color);
+        border: 1px solid color-mix(in srgb, var(--accent-color) 14%, var(--border-color));
+        background: color-mix(in srgb, var(--bg-color) 18%, var(--bg-panel));
+        color: color-mix(in srgb, var(--accent-color) 70%, var(--text-muted));
         white-space: nowrap;
+        opacity: 0.9;
     }
 
     .chat-list-unread {
@@ -586,7 +665,9 @@
 
     .chat-actions-rail {
         min-width: 0;
-        padding: 0.9rem;
+        padding: 0.75rem;
+        background: transparent;
+        border-left: 1px solid color-mix(in srgb, var(--accent-color) 6%, var(--border-color));
     }
 
     .chat-actions-scroll {
@@ -594,7 +675,7 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 0.85rem;
+        gap: 0.65rem;
         padding-right: 0.1rem;
     }
 
@@ -603,7 +684,21 @@
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.85rem;
+        gap: 0.8rem;
+        background: linear-gradient(180deg, color-mix(in srgb, var(--bg-panel) 96%, transparent), color-mix(in srgb, var(--bg-color) 18%, var(--bg-panel)));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 10%, var(--border-color));
+        box-shadow: 0 14px 30px rgba(0,0,0,0.14);
+    }
+
+    .chat-action-card--overview {
+        background:
+            radial-gradient(circle at top right, color-mix(in srgb, var(--accent-color) 10%, transparent), transparent 42%),
+            linear-gradient(180deg, color-mix(in srgb, var(--bg-panel) 97%, transparent), color-mix(in srgb, var(--bg-color) 18%, var(--bg-panel)));
+    }
+
+    .chat-action-card--danger-zone {
+        margin-top: auto;
+        border-color: color-mix(in srgb, #ff7b7b 24%, var(--border-color));
     }
 
     .chat-action-card-label {
@@ -618,16 +713,62 @@
         font-weight: 700;
     }
 
+    .chat-presence-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.9rem 0.95rem;
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--bg-color) 28%, var(--bg-panel));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 14%, var(--border-color));
+    }
+
+    .chat-presence-main {
+        min-width: 0;
+    }
+
+    .chat-presence-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-main);
+        line-height: 1.3;
+    }
+
+    .chat-presence-handle {
+        color: var(--text-muted);
+        font-size: 0.68rem;
+        margin-top: 0.18rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
     .chat-detail-stack {
         display: flex;
         flex-direction: column;
-        gap: 0.9rem;
+        gap: 0.7rem;
+        padding: 0.1rem 0 0;
     }
 
     .chat-detail-item {
         display: flex;
         flex-direction: column;
-        gap: 0.38rem;
+        gap: 0.42rem;
+        padding: 0.8rem 0.9rem;
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--bg-color) 32%, var(--bg-panel));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 10%, var(--border-color));
+    }
+
+    .chat-detail-item--pill-row {
+        gap: 0.55rem;
+    }
+
+    .chat-detail-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        align-items: center;
     }
 
     .chat-detail-label {
@@ -645,17 +786,17 @@
     .chat-activity-feed {
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.65rem;
     }
 
     .chat-activity-item {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.7rem;
         align-items: flex-start;
-        padding: 0.85rem;
-        border-radius: 16px;
-        background: color-mix(in srgb, var(--bg-color) 34%, var(--bg-panel));
-        border: 1px solid color-mix(in srgb, var(--accent-color) 16%, var(--border-color));
+        padding: 0.8rem;
+        border-radius: 15px;
+        background: color-mix(in srgb, var(--bg-color) 32%, var(--bg-panel));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 12%, var(--border-color));
     }
 
     .chat-activity-icon {
@@ -788,8 +929,102 @@
     }
 
     .chat-action-grid--stacked,
+    .chat-action-grid--progress-links,
     .chat-tracker-grid--rail {
         grid-template-columns: 1fr;
+    }
+
+    .chat-progress-strip {
+        margin: 0.65rem 0.8rem 0;
+        padding: 0.4rem 0 0;
+        border-top: 1px solid color-mix(in srgb, var(--accent-color) 10%, var(--border-color));
+        flex-shrink: 0;
+    }
+
+    .chat-progress-strip-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .chat-progress-strip-kicker {
+        color: var(--text-muted);
+        font-size: 0.64rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .chat-progress-strip-links {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+    }
+
+    .chat-inline-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.1rem;
+        padding: 0.5rem 0.82rem;
+        border-radius: 999px;
+        border: 1px solid color-mix(in srgb, var(--accent-color) 42%, var(--border-color));
+        background: transparent;
+        color: color-mix(in srgb, var(--text-main) 94%, white 6%);
+        text-decoration: none;
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        line-height: 1;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+        transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .chat-inline-link:hover {
+        color: var(--accent-color);
+        border-color: var(--accent-color);
+        background: color-mix(in srgb, var(--bg-color) 16%, var(--bg-panel));
+        box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+        transform: translateY(-1px);
+    }
+
+    .chat-progress-pills {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .chat-progress-pills form {
+        margin: 0;
+    }
+
+    .chat-progress-pill {
+        appearance: none;
+        border: 1px solid color-mix(in srgb, var(--stage-color) 50%, var(--border-color));
+        background: color-mix(in srgb, var(--bg-color) 24%, var(--bg-panel));
+        color: color-mix(in srgb, var(--stage-color) 82%, var(--text-main));
+        border-radius: 999px;
+        padding: 0.55rem 0.82rem;
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+    }
+
+    .chat-progress-pill:hover {
+        transform: translateY(-1px);
+        border-color: var(--stage-color);
+    }
+
+    .chat-progress-pill.is-active {
+        background: var(--stage-color);
+        color: #000;
+        border-color: var(--stage-color);
+        box-shadow: 0 8px 18px color-mix(in srgb, var(--stage-color) 22%, transparent);
     }
 
     .chat-action-form {
@@ -802,10 +1037,25 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
+    .chat-action-field-label {
+        font-size: 0.72rem;
+        font-family: var(--font-mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
     .chat-mini-input {
-        border-radius: 10px;
-        padding: 0.72rem 0.8rem;
-        margin-bottom: 0.45rem;
+        border-radius: 12px;
+        padding: 0.82rem 0.9rem;
+        margin-bottom: 0.1rem;
+        background: color-mix(in srgb, var(--bg-color) 42%, var(--bg-panel));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 12%, var(--border-color));
+        color: var(--text-main);
+    }
+
+    .chat-mini-input::placeholder {
+        color: color-mix(in srgb, var(--text-muted) 88%, white 12%);
     }
 
     .chat-action-btn {
@@ -816,6 +1066,136 @@
     .chat-action-btn--danger {
         border-color: #ff7b7b;
         color: #ff7b7b;
+    }
+
+    .chat-action-summary {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 0.9rem 0.95rem;
+        margin-bottom: 0.85rem;
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--bg-color) 32%, var(--bg-panel));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 12%, var(--border-color));
+    }
+
+    .chat-action-summary--danger {
+        margin-bottom: 0;
+        background: color-mix(in srgb, #ff7b7b 8%, var(--bg-panel));
+        border-color: color-mix(in srgb, #ff7b7b 22%, var(--border-color));
+    }
+
+    .chat-action-summary--tight {
+        margin-bottom: 1rem;
+    }
+
+    .chat-action-summary-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-main);
+    }
+
+    .chat-action-summary-copy {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--text-muted);
+    }
+
+    .chat-undo-form {
+        margin-top: 0.85rem;
+    }
+
+    .chat-undo-link {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+        cursor: pointer;
+        align-self: flex-start;
+    }
+
+    .chat-undo-link:hover {
+        color: var(--text-main);
+    }
+
+    .chat-decision-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .chat-decision-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.95rem;
+        border-radius: 18px;
+        border: 1px solid color-mix(in srgb, var(--accent-color) 12%, var(--border-color));
+        background: color-mix(in srgb, var(--bg-color) 30%, var(--bg-panel));
+    }
+
+    .chat-decision-card--primary {
+        border-color: color-mix(in srgb, var(--accent-color) 32%, var(--border-color));
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 14%, transparent);
+    }
+
+    .chat-decision-card--danger {
+        border-color: color-mix(in srgb, #ff7b7b 30%, var(--border-color));
+    }
+
+    .chat-decision-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .chat-decision-title {
+        font-size: 0.98rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.18rem;
+    }
+
+    .chat-decision-copy {
+        font-size: 0.86rem;
+        line-height: 1.55;
+        color: var(--text-muted);
+    }
+
+    .chat-decision-btn {
+        width: auto;
+        min-width: 96px;
+        flex-shrink: 0;
+    }
+
+    .chat-action-grid--compact {
+        margin-top: 0.9rem;
+    }
+
+    .chat-tracker-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 0.28rem;
+        padding: 0.8rem 0.9rem;
+        min-height: 72px;
+        white-space: normal;
+        border-radius: 16px;
+    }
+
+    .chat-tracker-btn-title {
+        font-weight: 600;
+    }
+
+    .chat-tracker-btn-hint {
+        font-size: 0.72rem;
+        line-height: 1.4;
+        opacity: 0.88;
     }
 
     .chat-message-stream {
@@ -932,12 +1312,18 @@
         text-underline-offset: 0.15em;
     }
 
-    .chat-reference-label,
-    .chat-composer-hint {
+    .chat-reference-label {
         color: var(--text-muted);
         font-size: 0.66rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
+    }
+
+    .chat-composer-hint {
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        letter-spacing: 0;
+        text-transform: none;
     }
 
     .chat-reference-grid,
@@ -1185,6 +1571,15 @@
 
         .chat-main-panel {
             min-height: 70vh;
+        }
+
+        .chat-progress-strip-head {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .chat-progress-strip-links {
+            gap: 0.65rem;
         }
 
         .chat-action-grid,

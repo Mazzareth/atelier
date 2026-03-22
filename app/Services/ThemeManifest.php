@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\File;
 
 class ThemeManifest
 {
+    private const ALLOWED_THEMES = ['default', 'rubber', 'femboy', 'dominant'];
+
     protected array $manifest = [];
     protected string $theme;
     protected string $manifestPath;
@@ -25,16 +27,21 @@ class ThemeManifest
     {
         // Check user's saved theme preference
         if (auth()->check() && auth()->user()->theme) {
-            return auth()->user()->theme;
+            return $this->normalizeTheme(auth()->user()->theme);
         }
 
         // Check session
         if (session()->has('theme')) {
-            return session('theme');
+            return $this->normalizeTheme((string) session('theme'));
         }
 
         // Default to 'default' theme
         return 'default';
+    }
+
+    protected function normalizeTheme(?string $theme): string
+    {
+        return in_array($theme, self::ALLOWED_THEMES, true) ? $theme : 'default';
     }
 
     /**
@@ -226,15 +233,123 @@ class ThemeManifest
     }
 
     /**
+     * Check if this theme requires identity selection
+     */
+    public function requiresIdentity(): bool
+    {
+        return (bool) $this->get('requires_identity', false);
+    }
+
+    /**
+     * Get identity-aware language string.
+     * Falls back to the base key if no identity-aware variant exists.
+     *
+     * @param string $key Dot-notation key (e.g., 'identity_aware.greeting_male')
+     * @param string|null $identity The viewer's identity (male, female, dickgirl, other)
+     * @param string|null $default Fallback if nothing found
+     * @return string
+     */
+    public function identityAware(string $keyPrefix, ?string $identity = null, ?string $default = null): string
+    {
+        if ($identity === null) {
+            $identity = $this->resolveViewerIdentity();
+        }
+
+        if (!$identity) {
+            return $default ?? '';
+        }
+
+        // Try identity-specific key: e.g. identity_aware.greeting_male
+        $identityKey = "{$keyPrefix}_{$identity}";
+        $result = $this->get("identity_aware.{$identityKey}");
+
+        if ($result) {
+            return $result;
+        }
+
+        // Fall back to other
+        $result = $this->get("identity_aware.{$keyPrefix}_other");
+        if ($result) {
+            return $result;
+        }
+
+        return $default ?? '';
+    }
+
+    /**
+     * Get the treatment label for the current viewer identity.
+     */
+    public function getIdentityLabel(?string $identity = null): string
+    {
+        if ($identity === null) {
+            $identity = $this->resolveViewerIdentity();
+        }
+
+        $labels = $this->get("identity.{$identity}.label", 'Guest');
+        return $labels;
+    }
+
+    /**
+     * Get the identity treatment type for the current viewer identity.
+     */
+    public function getIdentityTreatment(?string $identity = null): string
+    {
+        if ($identity === null) {
+            $identity = $this->resolveViewerIdentity();
+        }
+
+        return $this->get("identity.{$identity}.treatment", 'welcomed');
+    }
+
+    /**
+     * Get the identity pronoun for the current viewer identity.
+     */
+    public function getIdentityPronoun(?string $identity = null): string
+    {
+        if ($identity === null) {
+            $identity = $this->resolveViewerIdentity();
+        }
+
+        return $this->get("identity.{$identity}.pronoun", 'they');
+    }
+
+    /**
+     * Resolve the viewer's identity from session or authenticated user.
+     */
+    protected function resolveViewerIdentity(): ?string
+    {
+        // Check session first
+        if (session()->has('viewer_identity')) {
+            return session('viewer_identity');
+        }
+
+        // Check authenticated user
+        if (auth()->check() && auth()->user()->viewer_identity) {
+            return auth()->user()->viewer_identity;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get current viewer identity (public)
+     */
+    public function viewerIdentity(): ?string
+    {
+        return $this->resolveViewerIdentity();
+    }
+
+    /**
      * Clear manifest cache (call after theme change)
      */
     public static function clearCache(string $theme = null): void
     {
         if ($theme) {
+            $theme = in_array($theme, self::ALLOWED_THEMES, true) ? $theme : 'default';
             Cache::forget("theme_manifest_{$theme}");
         } else {
             // Clear all theme caches
-            $themes = ['default', 'rubber', 'guro', 'hexcorp', 'dominant'];
+            $themes = self::ALLOWED_THEMES;
             foreach ($themes as $t) {
                 Cache::forget("theme_manifest_{$t}");
             }

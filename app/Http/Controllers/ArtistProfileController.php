@@ -38,11 +38,34 @@ class ArtistProfileController extends Controller
 
         $artists = $query->orderBy('follower_count', 'desc')
             ->get()
-            ->filter(function ($artist) use ($request) {
+            ->map(function ($artist) use ($request) {
+                $avatarModule = $artist->profileModules->firstWhere('type', 'avatar_info');
                 $bioModule = $artist->profileModules->firstWhere('type', 'bio');
-                $bio = (string) ($bioModule->settings['text'] ?? '');
+                $galleryModule = $artist->profileModules->firstWhere('type', 'gallery_feed');
                 $slotsModule = $artist->profileModules->firstWhere('type', 'comm_slots');
+
+                $rawBio = (string) ($bioModule->settings['text'] ?? '');
+                $bio = trim(preg_replace(
+                    '/\s+/',
+                    ' ',
+                    preg_replace('/[#*_`>\-\[\]\(\)!]+/', ' ', strip_tags($rawBio))
+                ));
                 $slotsOpen = (int) ($slotsModule->settings['slots_open'] ?? 0);
+
+                $artist->setAttribute('browse_avatar', $avatarModule?->settings['avatar'] ?? null);
+                $artist->setAttribute('browse_bio', $bio);
+                $artist->setAttribute('browse_gallery_images', collect($galleryModule->settings['images'] ?? [])->take(4)->values()->all());
+                $artist->setAttribute('browse_slots_open', $slotsOpen);
+                $artist->setAttribute('browse_is_open', $slotsOpen > 0);
+                $artist->setAttribute('browse_is_following', $request->user()
+                    ? $artist->followers()->where('follower_id', $request->user()->id)->exists()
+                    : false);
+
+                return $artist;
+            })
+            ->filter(function ($artist) use ($request) {
+                $bio = strtolower((string) $artist->browse_bio);
+                $slotsOpen = (int) $artist->browse_slots_open;
                 $availability = $request->string('availability')->toString();
                 $tag = trim(strtolower($request->string('tag')->toString()));
 
@@ -54,7 +77,7 @@ class ArtistProfileController extends Controller
                     return false;
                 }
 
-                if ($tag !== '' && !str_contains(strtolower($bio), $tag) && !str_contains(strtolower($artist->name), $tag)) {
+                if ($tag !== '' && !str_contains($bio, $tag) && !str_contains(strtolower($artist->name), $tag)) {
                     return false;
                 }
 

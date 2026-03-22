@@ -1,0 +1,121 @@
+{
+    "name": "Dickgirl Mommy",
+    "personality": "Warm, Protective, Generous",
+    "description": "Come here, sweetheart. I've got you. Everything's going to be just fine.",
+    "requires_identity": true,
+    "identity": {
+        "male": {
+            "treatment": "nurtured",
+            "pronoun": "he",
+            "label": "Good Boy"
+        },
+        "female": {
+            "treatment": "cherished",
+            "pronoun": "she",
+            "label": "Sweet Girl"
+        },
+        "dickgirl": {
+            "treatment": "respected",
+            "pronoun": "she",
+            "label": "Dear"
+        },
+        "other": {
+            "treatment": "cared for",
+            "pronoun": "they",
+            "label": "Darling"
+        }
+    },
+    "language": {
+        "buttons": {
+            "default": "Come Here",
+            "hover": "Yes, Sweetie",
+            "loading": "Just a moment...",
+            "disabled": "Not Quite Yet",
+            "save": "I've Got It",
+            "cancel": "That's Okay",
+            "delete": "Let It Go",
+            "edit": "Let's Fix That",
+            "close": "There We Go",
+            "send": "All Done",
+            "next": "Next, Love",
+            "previous": "Go Back"
+        },
+        "nav": {
+            "home": "Home",
+            "profile": "My Corner",
+            "settings": "Preferences",
+            "dashboard": "Dashboard",
+            "logout": "Take Care",
+            "login": "Welcome Back",
+            "register": "Join Me",
+            "browse": "Meet Artists",
+            "messages": "Connect",
+            "notifications": "Updates"
+        },
+        "cards": {
+            "collapse": "Less",
+            "expand": "More",
+            "close": "Close",
+            "view": "Look",
+            "more": "More"
+        },
+        "messages": {
+            "welcome": "You're safe here.",
+            "success": "There we go, sweetheart.",
+            "error": "Oh no. Let's try that again, okay?",
+            "warning": "Hey, careful now.",
+            "loading": "Just a moment, love...",
+            "empty": "Nothing here yet. But there's room for you.",
+            "confirm": "Are you sure, dear?"
+        },
+        "page": {
+            "title": "Atelier",
+            "subtitle": "I've got you."
+        },
+        "identity_aware": {
+            "greeting_male": "There you are, good boy. Let me take care of you.",
+            "greeting_female": "Hello, sweet girl. Come sit with me.",
+            "greeting_dickgirl": "Welcome, dear. You're one of us.",
+            "greeting_other": "Hello, darling. Make yourself at home.",
+            "browse_male": "Let me show you artists who'll adore you.",
+            "browse_female": "Find someone who'll treasure every moment with you.",
+            "browse_dickgirl": "Find artists who understand what you bring to the table.",
+            "browse_other": "Find exactly what you need here.",
+            "commission_male": "Tell me what you've been dreaming of, baby.",
+            "commission_female": "What would you love to have made, sweetheart?",
+            "commission_dickgirl": "What are you working on, dear? Let's hear it.",
+            "commission_other": "What do you need, darling? Tell me all about it.",
+            "empty_male": "Nothing here yet, good boy. But I'll help you fill it.",
+            "empty_female": "Nothing here yet, sweet girl. We'll build something beautiful together.",
+            "empty_dickgirl": "Nothing here yet, dear. Add something that makes you proud.",
+            "empty_other": "Nothing here yet, darling. Take your time."
+        }
+    },
+    "layout": {
+        "navStyle": "soft",
+        "navPosition": "top",
+        "cardGap": "generous",
+        "contentDensity": "low",
+        "maxWidth": "1180px",
+        "sidebarWidth": "280px"
+    },
+    "behaviors": {
+        "hover": "warm",
+        "click": "soft",
+        "transition": "slow",
+        "animationSpeed": 1.2
+    },
+    "components": {
+        "button": {
+            "style": "rounded",
+            "iconPosition": "left"
+        },
+        "card": {
+            "style": "soft",
+            "shadow": "gentle"
+        },
+        "input": {
+            "style": "warm"
+        }
+    }
+}

@@ -1,119 +1,117 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
-    <div style="width: 100%; max-width: 720px; position: relative;">
-        <div class="theme-extra" style="display: block; position: absolute; top: -60px; left: -40px; font-size: 6rem; opacity: 0.06; pointer-events: none; z-index: 0;">✦</div>
+<div class="container min-h-screen flex items-center justify-center py-12">
+    <div class="w-full max-w-4xl relative">
+        {{-- Decorative element --}}
+        <div class="absolute -top-16 -left-10 text-8xl opacity-10 pointer-events-none select-none" aria-hidden="true">
+            ✦
+        </div>
 
-        <div style="position: relative; z-index: 1; text-align: center; margin-bottom: 3rem;">
-            <div class="pill mono" style="margin-bottom: 1.5rem; display: inline-flex;">
-                <div class="dot"></div>
-                ● start here
-            </div>
-            <h1 class="serif" style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem;">
-                <span class="light">What brings you</span> <span class="highlight">here?</span>
+        <div class="relative z-10 text-center mb-12">
+            <x-badge variant="muted" size="sm" class="mb-6">
+                <span class="inline-block w-2 h-2 rounded-full bg-current mr-2"></span>
+                Start here
+            </x-badge>
+            
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                What brings you <span class="text-accent">here?</span>
             </h1>
-            <p class="hero-text serif" style="font-size: 1.1rem; max-width: 480px; margin: 0 auto;">
+            <p class="text-lg text-muted max-w-lg mx-auto">
                 Choose your path. You can always add capabilities later.
             </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <div class="grid md:grid-cols-2 gap-6">
             {{-- Artist Card --}}
-            <a href="{{ route('register', ['type' => 'artist']) }}" style="text-decoration: none; display: block;">
-                <div style="background: var(--bg-panel); border: 1px solid var(--border-color); padding: 2.5rem 2rem; border-radius: 16px; transition: all 0.25s ease; position: relative; overflow: hidden; height: 100%;">
-                    <div style="position: absolute; top: 0; right: 0; width: 120px; height: 120px; background: radial-gradient(circle at top right, color-mix(in srgb, var(--accent-color) 15%, transparent), transparent 70%); pointer-events: none;"></div>
+            <a href="{{ route('register', ['type' => 'artist']) }}" class="group block no-underline h-full">
+                <x-card padding="lg" hoverable class="h-full relative overflow-hidden transition-all duration-250 group-hover:-translate-y-1">
+                    {{-- Card graphic --}}
+                    <div class="absolute top-0 right-0 w-32 h-32 pointer-events-none rounded-bl-[100px] opacity-20" style="background: radial-gradient(circle at top right, var(--color-accent), transparent 70%);"></div>
 
-                    <div style="position: relative; z-index: 1;">
-                        <div class="pill mono" style="margin-bottom: 1.25rem; display: inline-flex; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border-color: color-mix(in srgb, var(--accent-color) 40%, var(--border-color));">
-                            <div class="dot" style="background: var(--accent-color);"></div>
-                            ● artist
-                        </div>
+                    <div class="relative z-10">
+                        <x-badge variant="accent" size="sm" class="mb-5 bg-accent/10 border-accent/40">
+                            <span class="inline-block w-2 h-2 rounded-full bg-accent mr-2"></span>
+                            Artist
+                        </x-badge>
 
-                        <h2 class="serif" style="font-size: 1.75rem; margin-bottom: 0.75rem; color: var(--text-main);">
-                            I want to <span class="highlight">sell my work</span>
+                        <h2 class="text-3xl font-bold mb-3">
+                            I want to <span class="text-accent">sell my work</span>
                         </h2>
 
-                        <p style="color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                        <p class="text-muted leading-relaxed mb-6">
                             Set up an artist profile, receive commission requests, manage your workspace, and get paid for your creative work.
                         </p>
 
-                        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Customizable artist page
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Customizable artist page
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Commission request inbox
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Commission request inbox
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Workspace & file sharing
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Workspace & file sharing
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Revenue tracking
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Revenue tracking
                             </div>
                         </div>
 
-                        <div class="mono" style="margin-top: 2rem; font-size: 0.78rem; color: var(--accent-color);">
+                        <div class="mt-8 text-sm font-mono text-accent uppercase tracking-wide group-hover:underline">
                             Create artist account →
                         </div>
                     </div>
-                </div>
+                </x-card>
             </a>
 
             {{-- Client Card --}}
-            <a href="{{ route('register', ['type' => 'client']) }}" style="text-decoration: none; display: block;">
-                <div style="background: var(--bg-panel); border: 1px solid var(--border-color); padding: 2.5rem 2rem; border-radius: 16px; transition: all 0.25s ease; position: relative; overflow: hidden; height: 100%;">
-                    <div style="position: absolute; top: 0; right: 0; width: 120px; height: 120px; background: radial-gradient(circle at top right, color-mix(in srgb, var(--accent-color) 15%, transparent), transparent 70%); pointer-events: none;"></div>
+            <a href="{{ route('register', ['type' => 'client']) }}" class="group block no-underline h-full">
+                <x-card padding="lg" hoverable class="h-full relative overflow-hidden transition-all duration-250 group-hover:-translate-y-1">
+                    {{-- Card graphic --}}
+                    <div class="absolute top-0 right-0 w-32 h-32 pointer-events-none rounded-bl-[100px] opacity-20" style="background: radial-gradient(circle at top right, var(--color-accent), transparent 70%);"></div>
 
-                    <div style="position: relative; z-index: 1;">
-                        <div class="pill mono" style="margin-bottom: 1.25rem; display: inline-flex; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border-color: color-mix(in srgb, var(--accent-color) 40%, var(--border-color));">
-                            <div class="dot" style="background: var(--accent-color);"></div>
-                            ● client
-                        </div>
+                    <div class="relative z-10">
+                        <x-badge variant="accent" size="sm" class="mb-5 bg-accent/10 border-accent/40">
+                            <span class="inline-block w-2 h-2 rounded-full bg-accent mr-2"></span>
+                            Client
+                        </x-badge>
 
-                        <h2 class="serif" style="font-size: 1.75rem; margin-bottom: 0.75rem; color: var(--text-main);">
-                            I want to <span class="highlight">hire an artist</span>
+                        <h2 class="text-3xl font-bold mb-3">
+                            I want to <span class="text-accent">hire an artist</span>
                         </h2>
 
-                        <p style="color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                        <p class="text-muted leading-relaxed mb-6">
                             Browse artists, follow your favorites, send commission requests, and manage your projects in one place.
                         </p>
 
-                        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Browse artist profiles
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Browse artist profiles
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Follow favorite artists
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Follow favorite artists
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Commission requests
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Commission requests
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.82rem;">
-                                <span style="color: var(--accent-color);">+</span> Message artists
+                            <div class="flex items-center gap-3 text-sm text-muted">
+                                <span class="text-accent text-lg leading-none">+</span> Message artists
                             </div>
                         </div>
 
-                        <div class="mono" style="margin-top: 2rem; font-size: 0.78rem; color: var(--accent-color);">
+                        <div class="mt-8 text-sm font-mono text-accent uppercase tracking-wide group-hover:underline">
                             Create client account →
                         </div>
                     </div>
-                </div>
+                </x-card>
             </a>
         </div>
 
-        <div class="mono" style="margin-top: 3rem; font-size: 0.82rem; color: var(--text-muted); text-align: center;">
+        <div class="mt-12 text-center text-sm font-mono text-muted uppercase tracking-wide">
             Already have an account?
-            <a href="{{ route('login') }}" style="color: var(--accent-color); text-decoration: none; margin-left: 0.5rem;">Log in here</a>
+            <a href="{{ route('login') }}" class="text-accent hover:underline ml-2">Log in here</a>
         </div>
     </div>
 </div>
-
-<style>
-    a:hover > div {
-        border-color: color-mix(in srgb, var(--accent-color) 50%, var(--border-color));
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-</style>
 @endsection

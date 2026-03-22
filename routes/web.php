@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RoleSwitchController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationNotificationController;
+use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\GalleryController;
@@ -157,11 +158,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 });
 
-// Public Artist Profile (Must be at the bottom to avoid catching other routes)
-Route::get('/{username}', [ArtistProfileController::class, 'show'])->name('artist.profile');
+// Identity Selector (for dickgirl-themed experiences)
+Route::get('/identity', [IdentityController::class, 'show'])->name('identity.select');
+Route::post('/identity', [IdentityController::class, 'store'])->name('identity.store');
+Route::delete('/identity', [IdentityController::class, 'destroy'])->name('identity.clear');
 
 // Theme Routes (for testing/development)
 Route::get('/theme/switch/{theme}', [ThemeController::class, 'switch'])->name('theme.switch');
 Route::get('/theme/preview/{theme}', [ThemeController::class, 'preview'])->name('theme.preview');
 Route::get('/theme/reset', [ThemeController::class, 'reset'])->name('theme.reset');
 Route::get('/theme/list', [ThemeController::class, 'list']);
+
+// Public Artist Profile (Must be at the bottom to avoid catching other routes)
+Route::get('/{username}', [ArtistProfileController::class, 'show'])->name('artist.profile');
